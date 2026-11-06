@@ -3,121 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#050505">
-<title>PFC · Тренер</title>
+<meta name="theme-color" content="#f2f2f0">
+<title>PFC · Тренировка</title>
 <link id="fav" rel="icon" type="image/png" href="file:///C:/Users/User171/OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/Prefrontal%20cortex/images/icon.png">
 <style>
+  :root{--ink:#0a0a0a;--paper:#f2f2f0;--mute:rgba(10,10,10,.55);--line:rgba(10,10,10,.08)}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;min-height:100dvh;background:#050505;color:rgba(255,255,255,.88);
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,system-ui,sans-serif;
-    font-variant-numeric:tabular-nums;overflow-x:hidden}
-  body::before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#1c1603 0%,#050505 45%)}
-  .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.35;z-index:-1;animation:drift 26s ease-in-out infinite}
-  .o1{width:60vmax;height:60vmax;background:#ca8a04;top:-22vmax;left:-16vmax}
-  .o2{width:46vmax;height:46vmax;background:#f59e0b;bottom:-16vmax;right:-14vmax;opacity:.22;animation-duration:33s}
-  .o3{width:30vmax;height:30vmax;background:#854d0e;top:42vh;left:55vw;opacity:.25;animation-duration:22s}
-  @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(8vw,6vh)}}
+  html,body{margin:0;min-height:100dvh;color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+    font-variant-numeric:tabular-nums;background:var(--paper);-webkit-font-smoothing:antialiased}
+  body{background:
+    radial-gradient(900px 500px at 0% -10%,#fff 0%,transparent 60%),
+    radial-gradient(800px 500px at 110% 110%,#fff 0%,transparent 55%),
+    #e9e9e6}
 
-  .app{max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;gap:16px;
-    padding:calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 24px)}
+  .app{max-width:460px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;gap:14px;
+    padding:calc(env(safe-area-inset-top) + 18px) 18px calc(env(safe-area-inset-bottom) + 24px)}
 
-  .glass{position:relative;border-radius:28px;padding:20px;
-    background:linear-gradient(155deg,rgba(250,204,21,.16),rgba(255,255,255,.02) 60%);
-    -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04),0 30px 80px -30px rgba(0,0,0,.9)}
+  .glass{position:relative;border-radius:28px;padding:22px;
+    background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,255,255,.45));
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    box-shadow:inset 0 1px 0 #fff,0 24px 60px -28px rgba(0,0,0,.28)}
   .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
-    background:linear-gradient(135deg,rgba(253,224,71,.75),rgba(253,224,71,.08) 45%,transparent);
+    background:linear-gradient(145deg,#fff,rgba(0,0,0,.12) 60%,rgba(255,255,255,.5));
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
     mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px}
+  .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:600}
+  .ttl{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+  h1{font-size:34px;line-height:1.05;letter-spacing:-.03em;margin:0 0 10px;font-weight:750}
+  h2{font-size:24px;letter-spacing:-.02em;margin:4px 0 0;font-weight:700}
+  p{margin:0;font-size:15px;line-height:1.55;color:var(--mute)}
   .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fde047;font-weight:600}
-  .ttl{font-size:20px;font-weight:650;letter-spacing:-.02em;color:#fff;margin-top:2px}
-  h1{font-size:34px;line-height:1.08;letter-spacing:-.02em;margin:0;color:#fff;font-weight:700}
-  h2{font-size:24px;letter-spacing:-.01em;margin:0;color:#fff;font-weight:650}
-  p{margin:0;font-size:16px;line-height:1.55;color:rgba(255,255,255,.75)}
-  .sub{font-size:15px;color:rgba(255,255,255,.6);min-height:20px;text-align:center}
-  .big-num{font-size:44px;font-weight:750;color:#fff;letter-spacing:-.02em;line-height:1}
+  .time{font-size:52px;font-weight:750;letter-spacing:-.04em;line-height:1}
+  .bar{height:4px;border-radius:99px;background:rgba(0,0,0,.08);overflow:hidden;margin-top:18px}
+  .bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .15s linear}
+  .desc{margin-top:14px;font-size:15px;color:var(--mute);line-height:1.5}
 
-  .btn{appearance:none;border:0;cursor:pointer;font-family:inherit;font-size:17px;font-weight:600;color:#fff;
-    padding:16px 22px;border-radius:999px;background:rgba(255,255,255,.08);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 10px 30px -12px rgba(0,0,0,.9);
-    transition:transform .2s cubic-bezier(.4,0,.2,1),filter .2s}
-  .btn:active{transform:scale(.97);filter:brightness(1.15)}
-  .btn:disabled{opacity:.35;pointer-events:none}
-  .btn-y{background:linear-gradient(120deg,#fef08a,#facc15 45%,#f59e0b);color:#000;font-weight:700;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 40px -10px rgba(250,204,21,.6)}
-  .btn-small{padding:10px 16px;font-size:14px}
-  .btn-block{width:100%}
-  .btn-big{padding:22px;font-size:20px}
+  .btn{appearance:none;border:0;cursor:pointer;font:inherit;font-size:16px;font-weight:600;color:#fff;background:var(--ink);
+    padding:15px 22px;border-radius:999px;transition:transform .18s cubic-bezier(.4,0,.2,1),opacity .2s;
+    box-shadow:0 12px 28px -14px rgba(0,0,0,.6)}
+  .btn:active{transform:scale(.97)}
+  .btn:disabled{opacity:.3;pointer-events:none}
+  .btn.ghost{background:rgba(255,255,255,.7);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+  .btn.sm{padding:9px 14px;font-size:13px}
+  .btn.lg{padding:20px;font-size:18px}
+  .block{width:100%}
 
-  .card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;color:inherit;font-family:inherit}
-  .num-badge{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;
-    background:rgba(250,204,21,.14);color:#fde047;font-weight:750;font-size:18px}
-  .done{background:linear-gradient(135deg,#fde047,#f59e0b);color:#000}
-  .meta{font-size:13px;color:rgba(253,224,71,.85);letter-spacing:.04em}
+  .seg{display:flex;gap:6px;margin-top:18px;padding:4px;background:rgba(0,0,0,.05);border-radius:999px}
+  .seg button{flex:1;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;padding:10px;border-radius:999px;cursor:pointer;color:var(--mute);transition:all .3s cubic-bezier(.4,0,.2,1)}
+  .seg button.on{background:#fff;color:var(--ink);box-shadow:0 4px 14px -6px rgba(0,0,0,.25)}
 
-  .screen{display:none;flex-direction:column;gap:16px}
+  .list{display:flex;flex-direction:column;gap:12px}
+  .card{display:flex;align-items:center;gap:14px;width:100%;border:0;background:none;text-align:left;cursor:pointer;font:inherit;color:inherit;padding:0}
+  .card:active{transform:scale(.98)}
+  .num{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;flex-shrink:0}
+  .card b{display:block;font-size:17px;font-weight:650}
+  .card span{font-size:13px;color:var(--mute)}
+  .hist{margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+  .hist div{display:flex;justify-content:space-between;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.6)}
+
+  .screen{display:none;flex-direction:column;gap:14px}
   .screen.on{display:flex;animation:up .5s cubic-bezier(.4,0,.2,1)}
-  @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
-  .timer-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
-  .timer-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#facc15,#f59e0b);
-    box-shadow:0 0 18px -2px rgba(250,204,21,.7);transition:width .15s linear}
-
-  .stage{display:flex;flex-direction:column;align-items:center;gap:18px;min-height:360px;justify-content:center}
-  .word{font-size:72px;font-weight:800;letter-spacing:-.02em;min-height:90px;display:grid;place-items:center;text-align:center}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:320px}
-  .sbtn{appearance:none;border:0;border-radius:24px;padding:24px 0;font:800 20px inherit;color:#000;cursor:pointer;font-family:inherit;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 14px 30px -14px rgba(0,0,0,.9);transition:transform .15s}
+  .stage{min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+  .word{font-size:64px;font-weight:800;letter-spacing:-.03em;text-align:center;min-height:80px;display:grid;place-items:center}
+  .sub{font-size:14px;color:var(--mute);text-align:center}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:300px}
+  .sbtn{appearance:none;border:0;border-radius:20px;padding:20px 0;font:700 15px inherit;font-family:inherit;color:#fff;background:var(--ink);cursor:pointer;transition:transform .15s}
   .sbtn:active{transform:scale(.96)}
-  .cell{aspect-ratio:1;border-radius:22px;background:rgba(255,255,255,.06);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 10px 24px -14px rgba(0,0,0,.9);transition:all .25s}
-  .cell.on{background:radial-gradient(circle at 35% 30%,#fef9c3,#facc15 55%,#b45309);
-    box-shadow:0 0 50px -4px rgba(250,204,21,.8),inset 0 1px 0 rgba(255,255,255,.5)}
+  .cell{aspect-ratio:1;border-radius:20px;background:rgba(0,0,0,.05);transition:background .25s,transform .25s}
+  .cell.on{background:var(--ink);transform:scale(1.03);box-shadow:0 14px 30px -12px rgba(0,0,0,.5)}
 
-  .orb-box{position:relative;width:min(70vw,280px);aspect-ratio:1;margin:0 auto}
-  .orb{position:absolute;inset:18%;border-radius:50%;z-index:1;
-    background:radial-gradient(circle at 35% 30%,#fef9c3,#facc15 40%,#b45309 85%);
-    box-shadow:0 0 70px -8px rgba(250,204,21,.7),inset 0 1px 0 rgba(255,255,255,.5);transform:scale(.55)}
-  .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(253,224,71,.25)}
-  .orb-txt{position:absolute;inset:0;display:grid;place-items:center;z-index:2;font-size:24px;font-weight:700;color:#000;pointer-events:none}
+  .orb-box{position:relative;width:min(64vw,250px);aspect-ratio:1}
+  .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(0,0,0,.1)}
+  .orb{position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#555,#0a0a0a 70%);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);transform:scale(.55)}
+  .phase{font-size:22px;font-weight:700;text-align:center;min-height:30px}
+  .wd{width:100%}
 
   .ring-svg{transform:rotate(-90deg)}
-  .ring-prog{transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
-  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .metric{padding:16px}
-  .metric .lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fde047;font-weight:600}
-  .metric .val{font-size:30px;font-weight:700;color:#fff;margin-top:4px}
+  .ring-prog{transition:stroke-dashoffset .9s cubic-bezier(.4,0,.2,1)}
+  .rrow{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center}
+  .rrow .bar{margin-top:0;grid-column:1 / -1;height:6px}
+  .rrow .v{font-size:20px;font-weight:700}
+  .rrow .d{font-size:12px;color:var(--mute);grid-column:1 / -1;margin-top:-2px}
 
-  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);
-    padding:12px 20px;border-radius:999px;background:rgba(20,16,4,.9);color:#fde047;font-size:15px;font-weight:600;
-    opacity:0;transition:opacity .3s;pointer-events:none;border:1px solid rgba(250,204,21,.3);z-index:9}
-  .toast.show{opacity:1}
+  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translate(-50%,8px);
+    padding:12px 18px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:600;
+    opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:9}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
-<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
-
-<div class="app">
-  <header class="row">
+<main class="app">
+  <header class="top">
     <div>
-      <div class="kicker">PFC · Тренер</div>
-      <div class="ttl" id="ttl">Тренировка</div>
+      <div class="kicker">PFC · Тренировка</div>
+      <div class="ttl" id="ttl">Главная</div>
     </div>
-    <button class="btn btn-small" id="snd">Звук: вкл</button>
+    <button class="btn ghost sm" id="snd">Звук: вкл</button>
   </header>
 
   <!-- ГЛАВНАЯ -->
   <section class="screen" id="home">
     <div class="glass">
-      <h1>Тренировка <span style="color:#facc15">внимания</span> и контроля</h1>
-      <p style="margin-top:12px">4 упражнения по 30 секунд. Каждое тренирует отдельную функцию префронтальной коры.</p>
+      <h1>Контроль внимания и памяти</h1>
+      <p>Четыре задачи по 30 секунд. Проходите все подряд или выберите одну.</p>
+      <div class="seg" id="seg">
+        <button data-n="1" class="on">Память N = 1</button>
+        <button data-n="2">Память N = 2</button>
+      </div>
     </div>
-    <div id="mods" style="display:flex;flex-direction:column;gap:12px"></div>
-    <button class="btn btn-y btn-block btn-big" id="go">Начать тренировку</button>
-    <div class="sub" id="last"></div>
+    <div class="list" id="mods"></div>
+    <button class="btn lg block" id="all">Полная тренировка · 2 мин</button>
+    <div class="glass">
+      <div class="kicker">История</div>
+      <div class="hist" id="hist"></div>
+    </div>
   </section>
 
   <!-- ИГРА -->
@@ -125,244 +131,254 @@
     <div class="glass">
       <div class="row">
         <div>
-          <div class="meta" id="gStep">Шаг 1 из 4</div>
-          <h2 id="gName" style="margin-top:4px">—</h2>
+          <div class="kicker" id="gStep"></div>
+          <h2 id="gName"></h2>
         </div>
-        <div class="big-num" id="gTime">30</div>
+        <div class="time" id="gTime">30</div>
       </div>
-      <div class="timer-bar" style="margin-top:16px"><div class="timer-fill" id="gBar"></div></div>
-      <p class="sub" id="gDesc" style="margin-top:12px;min-height:0;font-size:15px"></p>
+      <div class="bar"><i id="gBar"></i></div>
+      <p class="desc" id="gDesc"></p>
     </div>
     <div class="glass stage" id="stage"></div>
-    <button class="btn btn-y btn-block btn-big" id="startBtn">Старт</button>
-    <button class="btn btn-block" id="quit">Выйти</button>
+    <button class="btn lg block" id="gStart">Старт</button>
+    <button class="btn ghost block" id="quit">Выйти · Esc</button>
   </section>
 
   <!-- РЕЗУЛЬТАТ -->
   <section class="screen" id="result">
     <div class="glass" style="display:flex;align-items:center;gap:20px">
-      <svg width="120" height="120" viewBox="0 0 120 120" class="ring-svg" style="flex-shrink:0">
-        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
-        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/>
-        <circle id="ringP" cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round"
+      <svg width="116" height="116" viewBox="0 0 120 120" class="ring-svg" style="flex-shrink:0">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,0,0,.08)" stroke-width="8"/>
+        <circle id="ringP" cx="60" cy="60" r="50" fill="none" stroke="#0a0a0a" stroke-width="8" stroke-linecap="round"
           stroke-dasharray="314.16" stroke-dashoffset="314.16" class="ring-prog"/>
-        <text id="ringT" x="60" y="70" text-anchor="middle" transform="rotate(90 60 60)" font-size="32" font-weight="750" fill="#fff">0</text>
+        <text id="ringT" x="60" y="70" text-anchor="middle" transform="rotate(90 60 60)" font-size="30" font-weight="750" fill="#0a0a0a">0</text>
       </svg>
       <div>
         <div class="kicker">Индекс готовности</div>
-        <h2 id="resLbl" style="margin-top:6px">—</h2>
+        <h2 id="resLbl"></h2>
       </div>
     </div>
-    <div class="metrics" id="metrics"></div>
-    <button class="btn btn-y btn-block btn-big" id="again">Пройти снова</button>
-    <button class="btn btn-block" id="home2">На главную</button>
+    <div class="glass" id="rows" style="display:flex;flex-direction:column;gap:16px"></div>
+    <button class="btn lg block" id="again">Повторить</button>
+    <button class="btn ghost block" id="home2">На главную</button>
   </section>
-</div>
+</main>
 
 <div class="toast" id="toast"></div>
 
 <script>
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 const rnd = n => Math.floor(Math.random() * n);
 const rndInt = (a, b) => a + rnd(b - a + 1);
+const DUR = 30;
 
-/* ---------- favicon с запасными путями ---------- */
-(function favicon(){
+/* favicon с запасными путями */
+(function favicon() {
   const fav = $('#fav');
   const cands = [fav.getAttribute('href'), 'images/icon.png', 'icon.png'];
   const tryIcon = i => {
     if (i >= cands.length) return;
     const p = new Image();
-    p.onload = () => fav.href = cands[i];
+    p.onload = () => { fav.href = cands[i]; };
     p.onerror = () => tryIcon(i + 1);
     p.src = cands[i];
   };
   tryIcon(0);
 })();
 
-/* ---------- звук ---------- */
-let sndOn = true, AC = null;
-function beep(f, d = 0.15) {
-  if (!sndOn) return;
+/* состояние и звук */
+const app = { sound: true, N: 1, hist: [] };
+let AC = null;
+function tone(f, d = 0.12, v = 0.05) {
+  if (!app.sound) return;
   try {
     AC = AC || new (window.AudioContext || window.webkitAudioContext)();
     const o = AC.createOscillator(), g = AC.createGain();
     o.frequency.value = f;
-    g.gain.setValueAtTime(0.08, AC.currentTime);
+    g.gain.setValueAtTime(v, AC.currentTime);
     g.gain.exponentialRampToValueAtTime(0.0001, AC.currentTime + d);
     o.connect(g).connect(AC.destination);
     o.start(); o.stop(AC.currentTime + d);
   } catch (e) {}
 }
-$('#snd').onclick = () => {
-  sndOn = !sndOn;
-  $('#snd').textContent = 'Звук: ' + (sndOn ? 'вкл' : 'выкл');
-  beep(660);
-};
-
-/* ---------- таймер ---------- */
-function clock(sec, onTick, onEnd) {
-  const t0 = performance.now(); let raf;
-  const loop = t => {
-    const left = Math.max(0, sec - (t - t0) / 1000);
-    onTick(left);
-    if (left <= 0) { onEnd(); return; }
-    raf = requestAnimationFrame(loop);
-  };
-  raf = requestAnimationFrame(loop);
-  return () => cancelAnimationFrame(raf);
+const vib = p => navigator.vibrate && navigator.vibrate(p);
+function pop(el) {
+  if (el && el.animate) el.animate([{ transform: 'scale(.96)' }, { transform: 'scale(1)' }], { duration: 240, easing: 'cubic-bezier(.34,1.56,.64,1)' });
 }
+$('#snd').onclick = () => {
+  app.sound = !app.sound;
+  $('#snd').textContent = 'Звук: ' + (app.sound ? 'вкл' : 'выкл');
+  tone(660);
+};
+$$('#seg button').forEach(b => b.onclick = () => {
+  app.N = +b.dataset.n;
+  $$('#seg button').forEach(x => x.classList.toggle('on', x === b));
+});
 
 function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 1400);
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => t.classList.remove('show'), 1400);
 }
 
-/* ---------- экраны ---------- */
-const TITLES = { home: 'Тренировка', game: 'Упражнение', result: 'Результат' };
+const TITLES = { home: 'Главная', game: 'Упражнение', result: 'Результат' };
 function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
+  $$('.screen').forEach(s => s.classList.toggle('on', s.id === id));
   $('#ttl').textContent = TITLES[id];
   window.scrollTo(0, 0);
 }
 
-/* ---------- модули ---------- */
-const MODS = [
-  { id: 'breath', name: 'Дыхание и внимание', time: 30,
-    desc: 'Дышите вместе с кругом. Если отвлеклись — нажмите «Я отвлёкся».' },
-  { id: 'stroop', name: 'Цвет против слова', time: 30,
-    desc: 'Нажмите цвет, которым напечатано слово. Само слово игнорируйте.' },
-  { id: 'nback', name: 'Память на позицию', time: 30,
-    desc: 'Нажмите «Совпало», если квадрат сейчас стоит на том же месте, что и на прошлом шаге.' },
-  { id: 'switch', name: 'Смена правила', time: 30,
-    desc: 'Читайте правило вверху. Для чисел — чётное или нечётное, для букв — гласная или согласная.' },
-];
-
-const M = {};
+/* ---------- МОДУЛИ ---------- */
+const MODS = [];
 
 /* 1. Дыхание */
-const B = { on: false, drifts: 0, timers: [] };
-M.breath = {
-  render(el) {
-    el.innerHTML = `
-      <div class="orb-box">
-        <div class="ring"></div>
-        <div class="orb" id="orb"></div>
-        <div class="orb-txt" id="ot" style="color:#fde047;mix-blend-mode:normal"></div>
-      </div>
-      <button class="btn btn-y btn-block" id="wander">Я отвлёкся</button>
-      <div class="sub" id="note">Отвлечения: 0</div>`;
-    $('#ot').textContent = 'Готовы?';
-    $('#wander').onclick = () => {
-      if (!B.on) return;
-      B.drifts++;
-      $('#note').textContent = 'Заметили. Возвращаемся к дыханию. Отвлечения: ' + B.drifts;
-      beep(440, 0.15);
-    };
-  },
-  start() {
-    B.on = true; B.drifts = 0;
-    const P = [['Вдох', 4, 1], ['Пауза', 4, 1], ['Выдох', 6, 0.55], ['Пауза', 2, 0.55]];
-    let i = 0;
-    const run = () => {
-      const [t, d, s] = P[i++ % 4];
-      const o = $('#orb');
-      o.style.transition = `transform ${d}s cubic-bezier(.4,0,.2,1)`;
-      o.style.transform = `scale(${s})`;
-      $('#ot').textContent = t;
-      B.timers.push(setTimeout(run, d * 1000));
-    };
-    run();
-  },
-  stop() {
-    B.on = false; B.timers.forEach(clearTimeout); B.timers = [];
-    return Math.max(0, 100 - B.drifts * 20);
+const B = {
+  on: false, drift: 0, t: null, i: 0,
+  P: [['Вдох', 4, 1], ['Пауза', 4, 1], ['Выдох', 6, 0.55], ['Пауза', 2, 0.55]],
+  loop() {
+    const [name, d, s] = this.P[this.i++ % 4];
+    const o = $('#orb'), ph = $('#phase');
+    if (o) { o.style.transition = `transform ${d}s cubic-bezier(.4,0,.2,1)`; o.style.transform = `scale(${s})`; }
+    if (ph) ph.textContent = name;
+    this.t = setTimeout(() => this.loop(), d * 1000);
   },
 };
+MODS.push({
+  id: 'breath', name: 'Дыхание и внимание', short: 'Удержание фокуса',
+  desc: 'Дышите в такт кругу. Если заметили, что отвлеклись, нажмите «Отвлёкся».',
+  render(el) {
+    el.innerHTML = `
+      <div class="orb-box"><div class="ring"></div><div class="orb" id="orb"></div></div>
+      <div class="phase" id="phase">Готовы</div>
+      <button class="btn wd" id="wd" disabled>Отвлёкся · <span id="wc">0</span></button>`;
+    $('#wd').onclick = () => {
+      B.drift++;
+      $('#wc').textContent = B.drift;
+      $('#phase').textContent = 'Заметили';
+      tone(440, 0.12, 0.04); vib(10); pop($('#wd'));
+    };
+  },
+  start() { B.on = true; B.drift = 0; B.i = 0; $('#wd').disabled = false; B.loop(); },
+  stop() {
+    B.on = false; clearTimeout(B.t);
+    const score = Math.max(0, 100 - B.drift * 15);
+    return { score, detail: `Отвлечений: ${B.drift}` };
+  },
+});
 
 /* 2. Струп */
 const SC = [
-  { n: 'КРАСНЫЙ', c: '#ef4444' }, { n: 'СИНИЙ', c: '#3b82f6' },
-  { n: 'ЗЕЛЁНЫЙ', c: '#22c55e' }, { n: 'ЖЁЛТЫЙ', c: '#facc15' },
+  { n: 'КРАСНЫЙ', c: '#e11d48' }, { n: 'СИНИЙ', c: '#2563eb' },
+  { n: 'ЗЕЛЁНЫЙ', c: '#16a34a' }, { n: 'ЖЁЛТЫЙ', c: '#eab308' },
 ];
-const S = { on: false, w: 0, ink: 0, ok: 0, tot: 0 };
+const S = { on: false, w: 0, k: 0, ok: 0, tot: 0, t0: 0, rts: [] };
 function sNext() {
-  const w = rnd(4);
-  let k = rnd(4);
-  if (Math.random() < 0.75) while (k === w) k = rnd(4);
-  S.w = w; S.ink = k;
-  const e = $('#sw');
-  e.textContent = SC[w].n;
-  e.style.color = SC[k].c;
-  e.style.textShadow = `0 0 30px ${SC[k].c}88`;
+  S.w = rnd(4); S.k = rnd(4);
+  if (Math.random() < 0.75) while (S.k === S.w) S.k = rnd(4);
+  const w = $('#sw');
+  if (!w) return;
+  w.textContent = SC[S.w].n;
+  w.style.color = SC[S.k].c;
   $('#sc').textContent = `Верно ${S.ok} из ${S.tot}`;
+  S.t0 = performance.now();
 }
-function sAnswer(i) {
+function sAns(i) {
   if (!S.on) return;
   S.tot++;
-  const good = i === S.ink;
-  if (good) S.ok++;
-  beep(good ? 880 : 200, 0.12);
+  const good = i === S.k;
+  if (good) { S.ok++; S.rts.push(performance.now() - S.t0); tone(880, 0.1, 0.04); }
+  else { tone(180, 0.2, 0.05); vib([30, 40, 30]); }
+  pop($('#sw'));
   sNext();
 }
-M.stroop = {
+MODS.push({
+  id: 'stroop', name: 'Цвет против слова', short: 'Торможение автоматизма',
+  desc: 'Нажмите цвет, которым напечатано слово. Само слово игнорируйте. Клавиши 1–4.',
   render(el) {
     el.innerHTML = `
       <div class="word" id="sw">—</div>
       <div class="sub" id="sc"></div>
-      <div class="grid2">${SC.map((c, i) => `<button class="sbtn" data-i="${i}" style="background:${c.c}">${c.n}</button>`).join('')}</div>`;
-    el.querySelectorAll('.sbtn').forEach(b => b.onclick = () => sAnswer(+b.dataset.i));
+      <div class="grid2">${SC.map((c, i) => `<button class="sbtn" data-i="${i}">${c.n}</button>`).join('')}</div>`;
+    el.querySelectorAll('.sbtn').forEach(b => b.onclick = () => sAns(+b.dataset.i));
   },
-  start() { S.on = true; S.ok = 0; S.tot = 0; sNext(); },
-  stop() { S.on = false; return S.tot ? Math.round(S.ok / S.tot * 100) : 0; },
-};
+  start() { S.on = true; S.ok = 0; S.tot = 0; S.rts = []; sNext(); },
+  stop() {
+    S.on = false;
+    const score = S.tot ? Math.round(S.ok / S.tot * 100) : 0;
+    const avg = S.rts.length ? Math.round(S.rts.reduce((a, b) => a + b, 0) / S.rts.length) : 0;
+    return { score, detail: `Верно ${S.ok} из ${S.tot}${avg ? `, реакция ${avg} мс` : ''}` };
+  },
+});
 
-/* 3. N-back (N=1) */
-const NB = { on: false, seq: [], resp: [], i: -1, last: -1, ok: 0, ev: 0, t: null };
-function nbEval(k) {
-  if (k < 1 || k === NB.last) return;
-  NB.last = k;
-  const match = NB.seq[k] === NB.seq[k - 1];
-  const said = !!NB.resp[k];
-  NB.ev++;
-  if (match === said) NB.ok++;
+/* 3. N-back */
+const NB = { on: false, seq: [], resp: [], i: -1, t: null, last: -1, ok: 0, ev: 0, hits: 0 };
+function nbEvalUpTo(k) {
+  for (let j = NB.last + 1; j <= k; j++) {
+    if (j >= NB.N) {
+      const match = NB.seq[j] === NB.seq[j - NB.N];
+      const said = !!NB.resp[j];
+      NB.ev++;
+      if (match === said) NB.ok++;
+      if (match && said) NB.hits++;
+    }
+    NB.last = j;
+  }
 }
 function nbStep() {
-  nbEval(NB.i);
+  if (!NB.on) return;
+  if (NB.i + 1 >= NB.seq.length) return;
   NB.i++;
-  if (NB.i >= NB.seq.length) { M.nback.stop(); finishStep(); return; }
-  const cells = document.querySelectorAll('#nbg .cell');
-  cells.forEach(c => c.classList.remove('on'));
-  cells[NB.seq[NB.i]].classList.add('on');
-  $('#nbs').textContent = `Шаг ${NB.i + 1}`;
-  NB.t = setTimeout(nbStep, 2000);
+  nbEvalUpTo(NB.i - 1);
+  $$('#nbg .cell').forEach((c, idx) => c.classList.toggle('on', idx === NB.seq[NB.i]));
+  $('#nbs').textContent = `Шаг ${NB.i + 1} из ${NB.seq.length}`;
+  NB.t = setTimeout(nbStep, 1800);
 }
-M.nback = {
+function nbMark() {
+  if (!NB.on || NB.i < 0 || NB.resp[NB.i]) return;
+  NB.resp[NB.i] = true;
+  tone(660, 0.08, 0.04); vib(8);
+  $('#nbm').textContent = 'Отмечено';
+  setTimeout(() => { const b = $('#nbm'); if (b) b.textContent = 'Совпало'; }, 500);
+}
+MODS.push({
+  id: 'nback', name: 'Память на позицию', short: `N-back, N = ${app.N}`,
+  desc: '', // заполняется при старте
   render(el) {
     el.innerHTML = `
-      <div class="grid3" id="nbg">${Array.from({ length: 9 }, () => '<div class="cell"></div>').join('')}</div>
-      <div class="sub" id="nbs">Запоминайте позицию</div>
-      <button class="btn btn-y btn-block btn-big" id="nbm">Совпало</button>`;
-    $('#nbm').onclick = () => { if (NB.on && NB.i >= 0) NB.resp[NB.i] = true; };
+      <div class="grid3">${Array.from({ length: 9 }, () => '<div class="cell"></div>').join('')}</div>
+      <div class="sub" id="nbs">Запомните позицию</div>
+      <button class="btn lg block" id="nbm">Совпало</button>`;
+    el.querySelector('#nbg, .grid3').id = 'nbg';
+    $('#nbm').onclick = nbMark;
   },
   start() {
-    NB.on = true; NB.seq = []; NB.resp = []; NB.i = -1; NB.last = -1; NB.ok = 0; NB.ev = 0;
+    const N = app.N;
+    this.desc = `Нажмите «Совпало», если квадрат стоит на том же месте, что ${N === 1 ? 'на предыдущем шаге' : 'два шага назад'}.`;
+    $('#gDesc').textContent = this.desc;
+    NB.on = true; NB.N = N; NB.seq = []; NB.resp = []; NB.i = -1; NB.last = -1; NB.ok = 0; NB.ev = 0; NB.hits = 0;
     for (let k = 0; k < 20; k++) {
-      if (k > 0 && Math.random() < 0.3) NB.seq.push(NB.seq[k - 1]);
-      else { let p; do p = rnd(9); while (k > 0 && p === NB.seq[k - 1]); NB.seq.push(p); }
+      if (k >= N && Math.random() < 0.35) NB.seq.push(NB.seq[k - N]);
+      else {
+        let p;
+        do p = rnd(9);
+        while ((k >= 1 && p === NB.seq[k - 1]) || (k >= N && p === NB.seq[k - N]));
+        NB.seq.push(p);
+      }
     }
     nbStep();
   },
   stop() {
     NB.on = false; clearTimeout(NB.t);
-    nbEval(NB.i);
-    return NB.ev ? Math.round(NB.ok / NB.ev * 100) : 0;
+    nbEvalUpTo(NB.i);
+    const score = NB.ev ? Math.round(NB.ok / NB.ev * 100) : 0;
+    return { score, detail: `Точность ${score}%, совпадений ${NB.hits}` };
   },
-};
+});
 
 /* 4. Переключение правил */
-const TS = { on: false, rule: 'num', left: 0, exp: 0, t0: 0, ok: 0, tot: 0 };
+const TS = { on: false, rule: 'num', left: 0, exp: 0, ok: 0, tot: 0, t0: 0, rts: [] };
 const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const VOW = ['А', 'Е', 'И', 'О', 'У', 'Ы', 'Э', 'Ю', 'Я'];
 const CON = ['Б', 'В', 'Г', 'Д', 'К', 'М', 'Н', 'П', 'Р', 'С', 'Т'];
@@ -373,119 +389,165 @@ function tsNext() {
   const pool = isNum ? NUMS : VOW.concat(CON);
   const v = pool[rnd(pool.length)];
   TS.exp = isNum ? (v % 2 === 0 ? 0 : 1) : (VOW.includes(v) ? 0 : 1);
-  $('#rule').textContent = isNum ? 'ПРАВИЛО: ЧИСЛО' : 'ПРАВИЛО: БУКВА';
-  $('#rule').style.color = isNum ? '#fde047' : '#fbbf24';
+  $('#tsr').textContent = isNum ? 'ПРАВИЛО: ЧИСЛО' : 'ПРАВИЛО: БУКВА';
   $('#tsw').textContent = v;
+  $('#ts0').textContent = isNum ? 'ЧЁТНОЕ' : 'ГЛАСНАЯ';
+  $('#ts1').textContent = isNum ? 'НЕЧЁТНОЕ' : 'СОГЛАСНАЯ';
   $('#tss').textContent = `Верно ${TS.ok} из ${TS.tot}`;
-  const opts = isNum ? ['ЧЁТНОЕ', 'НЕЧЁТНОЕ'] : ['ГЛАСНАЯ', 'СОГЛАСНАЯ'];
-  const box = $('#tsb');
-  box.innerHTML = opts.map((o, i) => `<button class="btn btn-big" data-i="${i}">${o}</button>`).join('');
-  box.querySelectorAll('button').forEach(b => b.onclick = () => tsAnswer(+b.dataset.i));
   TS.t0 = performance.now();
 }
-function tsAnswer(i) {
+function tsAns(i) {
   if (!TS.on) return;
   TS.tot++;
   const good = i === TS.exp;
-  if (good) TS.ok++;
-  beep(good ? 880 : 200, 0.12);
+  if (good) { TS.ok++; TS.rts.push(performance.now() - TS.t0); tone(880, 0.1, 0.04); }
+  else { tone(180, 0.2, 0.05); vib([30, 40, 30]); }
+  pop($('#tsw'));
   tsNext();
 }
-M.switch = {
+MODS.push({
+  id: 'switch', name: 'Смена правила', short: 'Гибкость мышления',
+  desc: 'Смотрите на правило вверху. Для чисел — чётное или нечётное, для букв — гласная или согласная. Клавиши 1–2.',
   render(el) {
     el.innerHTML = `
-      <div class="meta" id="rule" style="font-size:15px;font-weight:700;letter-spacing:.12em">—</div>
+      <div class="kicker" id="tsr" style="font-size:13px">—</div>
       <div class="word" id="tsw" style="font-size:96px">—</div>
       <div class="sub" id="tss"></div>
-      <div class="grid2" id="tsb"></div>`;
+      <div class="grid2">
+        <button class="sbtn" id="ts0"></button>
+        <button class="sbtn" id="ts1"></button>
+      </div>`;
+    $('#ts0').onclick = () => tsAns(0);
+    $('#ts1').onclick = () => tsAns(1);
   },
-  start() { TS.on = true; TS.ok = 0; TS.tot = 0; TS.rule = Math.random() < 0.5 ? 'num' : 'let'; TS.left = rndInt(3, 5); tsNext(); },
-  stop() { TS.on = false; return TS.tot ? Math.round(TS.ok / TS.tot * 100) : 0; },
-};
+  start() { TS.on = true; TS.ok = 0; TS.tot = 0; TS.rts = []; TS.rule = Math.random() < 0.5 ? 'num' : 'let'; TS.left = rndInt(3, 5); tsNext(); },
+  stop() {
+    TS.on = false;
+    const score = TS.tot ? Math.round(TS.ok / TS.tot * 100) : 0;
+    const avg = TS.rts.length ? Math.round(TS.rts.reduce((a, b) => a + b, 0) / TS.rts.length) : 0;
+    return { score, detail: `Верно ${TS.ok} из ${TS.tot}${avg ? `, реакция ${avg} мс` : ''}` };
+  },
+});
 
-/* ---------- ход тренировки ---------- */
-let step = 0, scores = [], stopClock = null, running = false, lastIdx = null;
+/* ---------- ХОД ТРЕНИРОВКИ ---------- */
+const G = { list: [], pos: 0, results: [], raf: 0, running: false };
 
-function openStep(i) {
-  step = i;
-  const m = MODS[i];
-  const el = $('#stage');
-  el.innerHTML = '';
-  M[m.id].render(el);
-  $('#gStep').textContent = `Шаг ${i + 1} из 4`;
-  $('#gName').textContent = m.name;
-  $('#gDesc').textContent = m.desc;
-  $('#gTime').textContent = m.time;
-  $('#gBar').style.width = '0%';
-  $('#startBtn').hidden = false;
+function startSession(list) {
+  G.list = list; G.pos = 0; G.results = [];
+  loadStep();
   show('game');
 }
 
-function startStep() {
-  const m = MODS[step];
-  running = true;
-  $('#startBtn').hidden = true;
-  M[m.id].start();
-  stopClock = clock(m.time,
-    left => {
-      $('#gTime').textContent = Math.ceil(left);
-      $('#gBar').style.width = ((m.time - left) / m.time * 100) + '%';
-    },
-    () => finishStep());
+function loadStep() {
+  const m = MODS[G.list[G.pos]];
+  $('#gStep').textContent = `Шаг ${G.pos + 1} из ${G.list.length}`;
+  $('#gName').textContent = m.name;
+  $('#gDesc').textContent = m.desc || '';
+  $('#gTime').textContent = DUR;
+  $('#gBar').style.width = '0%';
+  $('#gStart').hidden = false;
+  $('#stage').innerHTML = '';
+  m.render($('#stage'));
+  G.running = false;
+}
+
+function runStep() {
+  const m = MODS[G.list[G.pos]];
+  G.running = true;
+  $('#gStart').hidden = true;
+  m.start();
+  const t0 = performance.now();
+  const frame = t => {
+    const el = (t - t0) / 1000;
+    const left = Math.max(0, DUR - el);
+    $('#gTime').textContent = Math.ceil(left);
+    $('#gBar').style.width = (el / DUR * 100).toFixed(1) + '%';
+    if (left <= 0) { finishStep(); return; }
+    G.raf = requestAnimationFrame(frame);
+  };
+  G.raf = requestAnimationFrame(frame);
 }
 
 function finishStep() {
-  if (!running) return;
-  running = false;
-  stopClock && stopClock();
-  scores[step] = M[MODS[step].id].stop();
-  beep(990, 0.25);
-  if (step < 3) openStep(step + 1);
+  if (!G.running) return;
+  G.running = false;
+  cancelAnimationFrame(G.raf);
+  const m = MODS[G.list[G.pos]];
+  const r = m.stop();
+  G.results.push({ name: m.name, score: r.score, detail: r.detail });
+  tone(990, 0.25, 0.06); vib([20, 40, 20]);
+  if (G.pos < G.list.length - 1) { G.pos++; loadStep(); }
   else showResult();
 }
 
-function abort() {
-  if (!running) return;
-  running = false;
-  stopClock && stopClock();
-  M[MODS[step].id].stop();
+function quit() {
+  if (G.running) {
+    G.running = false;
+    cancelAnimationFrame(G.raf);
+    MODS[G.list[G.pos]].stop();
+  }
+  renderHome();
+  show('home');
 }
 
 function showResult() {
-  const [b, s, n, t] = scores;
-  const idx = Math.round((b + s + n + t) / 4);
-  lastIdx = idx;
+  const idx = Math.round(G.results.reduce((a, r) => a + r.score, 0) / G.results.length);
   $('#ringP').style.strokeDashoffset = String(314.16 * (1 - idx / 100));
   $('#ringT').textContent = idx;
   $('#resLbl').textContent = idx >= 80 ? 'Высокая готовность' : idx >= 60 ? 'Хорошая форма' : idx >= 40 ? 'Развивается' : 'Начальный уровень';
-  $('#metrics').innerHTML = [
-    ['Внимание', b], ['Торможение', s], ['Память', n], ['Переключение', t],
-  ].map(([l, v]) => `<div class="glass metric"><div class="lbl">${l}</div><div class="val">${v}%</div></div>`).join('');
+  $('#rows').innerHTML = G.results.map(r => `
+    <div class="rrow">
+      <div style="font-size:15px;font-weight:600">${r.name}</div>
+      <div class="v">${r.score}</div>
+      <div class="bar"><i style="width:${r.score}%"></i></div>
+      <div class="d">${r.detail}</div>
+    </div>`).join('');
+  app.hist.unshift({
+    t: new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' }),
+    idx, n: G.results.length,
+  });
+  app.hist = app.hist.slice(0, 5);
   show('result');
-  beep(1046, 0.4);
+  tone(1046, 0.4, 0.05);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    $('#ringP').style.strokeDashoffset = String(314.16 * (1 - idx / 100));
+  }));
+  setTimeout(() => $$('#rows .bar i').forEach(i => i.style.transition = 'width .9s cubic-bezier(.4,0,.2,1)'), 0);
 }
 
-/* ---------- главная ---------- */
+/* ---------- ГЛАВНАЯ ---------- */
 function renderHome() {
   $('#mods').innerHTML = MODS.map((m, i) => `
-    <div class="glass">
-      <div class="card" data-i="${i}" role="button" tabindex="0">
-        <div class="num-badge">${i + 1}</div>
+    <div class="glass" style="padding:16px 18px">
+      <button class="card" data-i="${i}">
+        <div class="num">${i + 1}</div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:17px;font-weight:650;color:#fff">${m.name}</div>
-          <div class="meta" style="margin-top:4px">30 сек</div>
+          <b>${m.name}</b>
+          <span>${m.short} · 30 сек</span>
         </div>
-      </div>
+      </button>
     </div>`).join('');
-  document.querySelectorAll('#mods .card').forEach(c => c.onclick = () => { openStep(+c.dataset.i); });
-  $('#last').textContent = lastIdx == null ? '' : `Последний индекс: ${lastIdx}`;
+  $$('#mods .card').forEach(c => c.onclick = () => startSession([+c.dataset.i]));
+  $('#hist').innerHTML = app.hist.length
+    ? app.hist.map(h => `<div><span>${h.t}</span><span>индекс ${h.idx} · модулей ${h.n}</span></div>`).join('')
+    : '<div style="justify-content:center;color:var(--mute)">Пока нет записей</div>';
 }
 
-$('#go').onclick = () => { scores = []; openStep(0); };
-$('#startBtn').onclick = () => { beep(660, 0.1); startStep(); };
-$('#quit').onclick = () => { abort(); renderHome(); show('home'); };
-$('#again').onclick = () => { scores = []; openStep(0); };
+$('#all').onclick = () => startSession([0, 1, 2, 3]);
+$('#gStart').onclick = () => { tone(660, 0.1); runStep(); };
+$('#quit').onclick = quit;
+$('#again').onclick = () => startSession(G.list.slice());
 $('#home2').onclick = () => { renderHome(); show('home'); };
+
+/* клавиатура */
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#game').classList.contains('on')) { quit(); return; }
+  if (!G.running) return;
+  const id = G.list[G.pos];
+  if (id === 'stroop' && /^[1-4]$/.test(e.key)) sAns(+e.key - 1);
+  if (id === 'switch' && /^[1-2]$/.test(e.key)) tsAns(+e.key - 1);
+  if (id === 'nback' && e.code === 'Space') { e.preventDefault(); nbMark(); }
+});
 
 renderHome();
 show('home');
