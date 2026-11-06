@@ -1,1953 +1,494 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#050811" />
-<title>Prefrontal Cortex · PFC Trainer</title>
-
-<!-- Favicon: primary absolute path requested, with relative fallback -->
-<link id="favicon" rel="icon" type="image/png" href="file:///C:/Users/User171/OneDrive/Рабочий стол/Prefrontal cortex/icon.png" />
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>PFC · Тренер</title>
+<link id="fav" rel="icon" type="image/png" href="file:///C:/Users/User171/OneDrive/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/Prefrontal%20cortex/images/icon.png">
 <style>
-  :root {
-    --base: #050811;
-    --cobalt: #3b82f6;
-    --violet: #7c3aed;
-    --pink: #ec4899;
-    --teal: #2dd4bf;
-    --emerald: #34d399;
-    --rose: #f87171;
-    --mx: 50%;
-    --my: 50%;
-    --accent: #7c3aed;
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
-    --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, sans-serif;
-  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;min-height:100dvh;background:#050505;color:rgba(255,255,255,.88);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,system-ui,sans-serif;
+    font-variant-numeric:tabular-nums;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#1c1603 0%,#050505 45%)}
+  .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.35;z-index:-1;animation:drift 26s ease-in-out infinite}
+  .o1{width:60vmax;height:60vmax;background:#ca8a04;top:-22vmax;left:-16vmax}
+  .o2{width:46vmax;height:46vmax;background:#f59e0b;bottom:-16vmax;right:-14vmax;opacity:.22;animation-duration:33s}
+  .o3{width:30vmax;height:30vmax;background:#854d0e;top:42vh;left:55vw;opacity:.25;animation-duration:22s}
+  @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(8vw,6vh)}}
 
-  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  .app{max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;gap:16px;
+    padding:calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 24px)}
 
-  html, body {
-    margin: 0;
-    min-height: 100%;
-    background: var(--base);
-    color: rgba(255,255,255,0.8);
-    font-family: var(--font);
-    font-variant-numeric: tabular-nums;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+  .glass{position:relative;border-radius:28px;padding:20px;
+    background:linear-gradient(155deg,rgba(250,204,21,.16),rgba(255,255,255,.02) 60%);
+    -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04),0 30px 80px -30px rgba(0,0,0,.9)}
+  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+    background:linear-gradient(135deg,rgba(253,224,71,.75),rgba(253,224,71,.08) 45%,transparent);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 
-  body {
-    background:
-      linear-gradient(180deg, #0b1230 0%, #050811 42%, #050811 100%);
-    min-height: 100dvh;
-  }
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fde047;font-weight:600}
+  .ttl{font-size:20px;font-weight:650;letter-spacing:-.02em;color:#fff;margin-top:2px}
+  h1{font-size:34px;line-height:1.08;letter-spacing:-.02em;margin:0;color:#fff;font-weight:700}
+  h2{font-size:24px;letter-spacing:-.01em;margin:0;color:#fff;font-weight:650}
+  p{margin:0;font-size:16px;line-height:1.55;color:rgba(255,255,255,.75)}
+  .sub{font-size:15px;color:rgba(255,255,255,.6);min-height:20px;text-align:center}
+  .big-num{font-size:44px;font-weight:750;color:#fff;letter-spacing:-.02em;line-height:1}
 
-  /* ---------- Ambient light orbs ---------- */
-  .orbs { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
-  .orb {
-    position: absolute; border-radius: 50%;
-    filter: blur(110px); opacity: 0.55;
-    will-change: transform;
-  }
-  .orb-1 { width: 46vmax; height: 46vmax; background: #1d4ed8; top: -14vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite; }
-  .orb-2 { width: 40vmax; height: 40vmax; background: #6d28d9; top: 30vh; right: -16vmax; animation: drift2 30s ease-in-out infinite; }
-  .orb-3 { width: 36vmax; height: 36vmax; background: #0d9488; bottom: -14vmax; left: 10vw; animation: drift3 22s ease-in-out infinite; }
-  .orb-4 { width: 26vmax; height: 26vmax; background: #be185d; top: 55vh; left: 40vw; opacity: 0.32; animation: drift4 34s ease-in-out infinite; }
+  .btn{appearance:none;border:0;cursor:pointer;font-family:inherit;font-size:17px;font-weight:600;color:#fff;
+    padding:16px 22px;border-radius:999px;background:rgba(255,255,255,.08);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 10px 30px -12px rgba(0,0,0,.9);
+    transition:transform .2s cubic-bezier(.4,0,.2,1),filter .2s}
+  .btn:active{transform:scale(.97);filter:brightness(1.15)}
+  .btn:disabled{opacity:.35;pointer-events:none}
+  .btn-y{background:linear-gradient(120deg,#fef08a,#facc15 45%,#f59e0b);color:#000;font-weight:700;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 40px -10px rgba(250,204,21,.6)}
+  .btn-small{padding:10px 16px;font-size:14px}
+  .btn-block{width:100%}
+  .btn-big{padding:22px;font-size:20px}
 
-  @keyframes drift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(14vw, 9vh) scale(1.08); } }
-  @keyframes drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-12vw, 12vh) scale(0.94); } }
-  @keyframes drift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(10vw, -10vh) scale(1.1); } }
-  @keyframes drift4 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-8vw, -6vh) scale(1.15); } }
+  .card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;color:inherit;font-family:inherit}
+  .num-badge{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;
+    background:rgba(250,204,21,.14);color:#fde047;font-weight:750;font-size:18px}
+  .done{background:linear-gradient(135deg,#fde047,#f59e0b);color:#000}
+  .meta{font-size:13px;color:rgba(253,224,71,.85);letter-spacing:.04em}
 
-  .grain {
-    position: fixed; inset: -50%; z-index: 1; pointer-events: none; opacity: 0.045;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    animation: grainShift 1.2s steps(6) infinite;
-  }
-  @keyframes grainShift {
-    0% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); }
-    40% { transform: translate(2%,-3%); } 60% { transform: translate(-2%,3%); }
-    80% { transform: translate(3%,1%); } 100% { transform: translate(0,0); }
-  }
+  .screen{display:none;flex-direction:column;gap:16px}
+  .screen.on{display:flex;animation:up .5s cubic-bezier(.4,0,.2,1)}
+  @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-  /* ---------- Liquid Glass surface ---------- */
-  .glass {
-    position: relative;
-    isolation: isolate;
-    border-radius: 28px;
-    background: linear-gradient(155deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.02) 100%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    backdrop-filter: blur(28px) saturate(180%);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.22),
-      inset 0 -1px 0 rgba(255,255,255,0.05),
-      0 30px 80px -30px rgba(0,0,0,0.8);
-    transition: box-shadow 0.5s var(--ease), transform 0.35s var(--ease), filter 0.25s var(--ease);
-    overflow: hidden;
-  }
-  .glass::before {
-    content: "";
-    position: absolute; inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(147,160,255,0.22) 35%, rgba(124,58,237,0.12) 60%, rgba(255,255,255,0) 100%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-    pointer-events: none;
-    z-index: 2;
-  }
-  /* Pointer-tracking light */
-  .glass::after {
-    content: "";
-    position: absolute; inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(360px circle at var(--mx) var(--my), rgba(255,255,255,0.13), transparent 60%);
-    opacity: 0; transition: opacity 0.4s var(--ease);
-    pointer-events: none; z-index: 1;
-  }
-  .glass:hover::after, .glass.is-tracking::after { opacity: 1; }
+  .timer-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+  .timer-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#facc15,#f59e0b);
+    box-shadow:0 0 18px -2px rgba(250,204,21,.7);transition:width .15s linear}
 
-  .glass.active {
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.25),
-      inset 0 -1px 0 rgba(255,255,255,0.05),
-      0 30px 80px -26px rgba(0,0,0,0.85),
-      0 0 60px -18px var(--accent);
-  }
+  .stage{display:flex;flex-direction:column;align-items:center;gap:18px;min-height:360px;justify-content:center}
+  .word{font-size:72px;font-weight:800;letter-spacing:-.02em;min-height:90px;display:grid;place-items:center;text-align:center}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:320px}
+  .sbtn{appearance:none;border:0;border-radius:24px;padding:24px 0;font:800 20px inherit;color:#000;cursor:pointer;font-family:inherit;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 14px 30px -14px rgba(0,0,0,.9);transition:transform .15s}
+  .sbtn:active{transform:scale(.96)}
+  .cell{aspect-ratio:1;border-radius:22px;background:rgba(255,255,255,.06);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 10px 24px -14px rgba(0,0,0,.9);transition:all .25s}
+  .cell.on{background:radial-gradient(circle at 35% 30%,#fef9c3,#facc15 55%,#b45309);
+    box-shadow:0 0 50px -4px rgba(250,204,21,.8),inset 0 1px 0 rgba(255,255,255,.5)}
 
-  .glass-tight { border-radius: 24px; }
-  .glass-pill { border-radius: 999px; }
+  .orb-box{position:relative;width:min(70vw,280px);aspect-ratio:1;margin:0 auto}
+  .orb{position:absolute;inset:18%;border-radius:50%;z-index:1;
+    background:radial-gradient(circle at 35% 30%,#fef9c3,#facc15 40%,#b45309 85%);
+    box-shadow:0 0 70px -8px rgba(250,204,21,.7),inset 0 1px 0 rgba(255,255,255,.5);transform:scale(.55)}
+  .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(253,224,71,.25)}
+  .orb-txt{position:absolute;inset:0;display:grid;place-items:center;z-index:2;font-size:24px;font-weight:700;color:#000;pointer-events:none}
 
-  .glass-inner { position: relative; z-index: 3; }
+  .ring-svg{transform:rotate(-90deg)}
+  .ring-prog{transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .metric{padding:16px}
+  .metric .lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fde047;font-weight:600}
+  .metric .val{font-size:30px;font-weight:700;color:#fff;margin-top:4px}
 
-  /* ---------- Typography ---------- */
-  .display {
-    font-size: clamp(28px, 7vw, 40px);
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    color: #fff;
-  }
-  .headline {
-    font-size: clamp(22px, 5.5vw, 30px);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 620;
-    color: #fff;
-  }
-  .label {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .body { font-size: 16px; line-height: 1.55; color: rgba(255,255,255,0.8); }
-  .num { font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
-
-  .grad-text {
-    background: linear-gradient(100deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-
-  /* ---------- Buttons ---------- */
-  .btn {
-    position: relative;
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    border-radius: 999px;
-    padding: 15px 26px;
-    font-weight: 600; font-size: 16px; letter-spacing: -0.005em;
-    color: #fff;
-    border: 0; cursor: pointer; user-select: none;
-    background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
-    -webkit-backdrop-filter: blur(20px) saturate(170%);
-    backdrop-filter: blur(20px) saturate(170%);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.28),
-      inset 0 -1px 0 rgba(255,255,255,0.05),
-      0 14px 34px -16px rgba(0,0,0,0.9);
-    transition: transform 0.2s var(--ease), filter 0.2s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
-    touch-action: manipulation;
-  }
-  .btn:active { transform: scale(0.97); filter: brightness(1.12); }
-  .btn:disabled { opacity: 0.4; pointer-events: none; }
-  .btn::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.05) 60%, rgba(255,255,255,0));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-    pointer-events: none;
-  }
-  .btn-primary {
-    background: linear-gradient(115deg, #3b82f6 0%, #7c3aed 52%, #ec4899 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.35),
-      0 18px 40px -14px rgba(124,58,237,0.75),
-      0 0 46px -12px rgba(236,72,153,0.45);
-  }
-  .btn-success {
-    background: linear-gradient(135deg, rgba(52,211,153,0.9), rgba(16,185,129,0.75));
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.35),
-      0 0 34px -4px rgba(52,211,153,0.6);
-  }
-  .btn-wander {
-    background: linear-gradient(135deg, rgba(248,113,113,0.95), rgba(225,29,72,0.8));
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.3),
-      0 0 34px -4px rgba(248,113,113,0.6);
-  }
-  .btn-ghost { background: rgba(255,255,255,0.06); }
-  .btn-sm { padding: 10px 16px; font-size: 14px; }
-  .btn-icon {
-    width: 44px; height: 44px; padding: 0; border-radius: 999px;
-  }
-
-  /* ---------- Option tiles (Stroop / Shift / N-back cells) ---------- */
-  .tile {
-    position: relative;
-    border-radius: 24px;
-    aspect-ratio: 1 / 1;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 18px; color: #fff;
-    cursor: pointer; user-select: none; touch-action: manipulation;
-    transition: transform 0.18s var(--ease), filter 0.2s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease);
-  }
-  .tile:active { transform: scale(0.96); filter: brightness(1.15); }
-  .tile.lit { box-shadow: 0 0 46px -6px currentColor, inset 0 1px 0 rgba(255,255,255,0.45); }
-  .tile-off {
-    background: linear-gradient(155deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
-    -webkit-backdrop-filter: blur(22px) saturate(170%);
-    backdrop-filter: blur(22px) saturate(170%);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 18px 40px -22px rgba(0,0,0,0.9);
-  }
-  .tile-off::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.45), rgba(147,160,255,0.15) 50%, rgba(255,255,255,0));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-    pointer-events: none;
-  }
-
-  /* ---------- Breathing orb ---------- */
-  .orb-wrap { position: relative; width: min(72vw, 300px); aspect-ratio: 1; margin: 0 auto; }
-  .breath-core {
-    position: absolute; inset: 22%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #c4b5fd 0%, #7c3aed 38%, #3b82f6 72%, rgba(59,130,246,0.2) 100%);
-    box-shadow: 0 0 80px -6px rgba(124,58,237,0.7), inset 0 1px 0 rgba(255,255,255,0.4);
-    transform: scale(0.6);
-    transition: transform 0.1s linear, box-shadow 0.4s var(--ease);
-    will-change: transform;
-  }
-  .breath-ring {
-    position: absolute; inset: 0; border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: radial-gradient(circle, transparent 60%, rgba(124,58,237,0.12) 72%, transparent 76%);
-  }
-  .breath-halo {
-    position: absolute; inset: 6%; border-radius: 50%;
-    background: radial-gradient(circle, rgba(236,72,153,0.25), rgba(59,130,246,0.12) 55%, transparent 70%);
-    filter: blur(14px);
-    transform: scale(0.85);
-    transition: transform 0.1s linear;
-  }
-
-  /* ---------- Progress ring ---------- */
-  .ring-track { stroke: rgba(255,255,255,0.08); }
-  .ring-progress { transition: stroke-dashoffset 0.6s var(--ease); }
-
-  /* ---------- Bars ---------- */
-  .bar-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
-  .bar-fill {
-    height: 100%; border-radius: 999px; width: 0%;
-    background: linear-gradient(90deg, #3b82f6, #7c3aed, #ec4899);
-    box-shadow: 0 0 18px -2px rgba(124,58,237,0.7);
-    transition: width 0.7s var(--ease);
-  }
-
-  /* ---------- Toggle ---------- */
-  .switch {
-    position: relative; width: 52px; height: 32px; border-radius: 999px; cursor: pointer;
-    background: rgba(255,255,255,0.12);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
-    transition: background 0.35s var(--ease);
-    flex-shrink: 0;
-  }
-  .switch::after {
-    content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%;
-    background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    transition: transform 0.4s var(--bounce);
-  }
-  .switch[data-on="true"] { background: linear-gradient(90deg, #3b82f6, #7c3aed); }
-  .switch[data-on="true"]::after { transform: translateX(20px); }
-
-  /* ---------- Range ---------- */
-  input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.12); outline: none; }
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #fff; cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5), 0 0 0 6px rgba(124,58,237,0.18);
-  }
-  input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 0; cursor: pointer; }
-
-  /* ---------- Views & animations ---------- */
-  .view { display: none; }
-  .view.is-active { display: block; animation: viewIn 0.6s var(--ease) both; }
-  @keyframes viewIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-
-  .stagger > * { opacity: 0; transform: translateY(18px); }
-  .view.is-active .stagger > * { animation: fadeUp 0.7s var(--ease) forwards; }
-  .view.is-active .stagger > *:nth-child(1) { animation-delay: 0.02s; }
-  .view.is-active .stagger > *:nth-child(2) { animation-delay: 0.08s; }
-  .view.is-active .stagger > *:nth-child(3) { animation-delay: 0.14s; }
-  .view.is-active .stagger > *:nth-child(4) { animation-delay: 0.2s; }
-  .view.is-active .stagger > *:nth-child(5) { animation-delay: 0.26s; }
-  .view.is-active .stagger > *:nth-child(6) { animation-delay: 0.32s; }
-  .view.is-active .stagger > *:nth-child(7) { animation-delay: 0.38s; }
-  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-  .pop { animation: pop 0.6s var(--bounce); }
-  @keyframes pop { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-  .flash-good { animation: flashGood 0.5s var(--ease); }
-  .flash-bad  { animation: flashBad 0.5s var(--ease); }
-  @keyframes flashGood { 0%{ box-shadow: 0 0 0 0 rgba(52,211,153,0.0);} 40%{ box-shadow: 0 0 60px 0 rgba(52,211,153,0.6);} 100%{ box-shadow: 0 0 0 0 rgba(52,211,153,0);} }
-  @keyframes flashBad  { 0%{ box-shadow: 0 0 0 0 rgba(248,113,113,0.0);} 40%{ box-shadow: 0 0 60px 0 rgba(248,113,113,0.6);} 100%{ box-shadow: 0 0 0 0 rgba(248,113,113,0);} }
-
-  .shake { animation: shake 0.45s var(--ease); }
-  @keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-7px);} 40%{transform:translateX(6px);} 60%{transform:translateX(-4px);} 80%{transform:translateX(3px);} }
-
-  .toast-in { animation: toastIn 0.55s var(--bounce) both; }
-  .toast-out { animation: toastOut 0.35s var(--ease) both; }
-  @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 16px) scale(0.96);} to { opacity: 1; transform: translate(-50%, 0) scale(1);} }
-  @keyframes toastOut { to { opacity: 0; transform: translate(-50%, 10px) scale(0.98);} }
-
-  .pulse-dot { animation: pulseDot 1.6s ease-in-out infinite; }
-  @keyframes pulseDot { 0%,100%{ opacity: 1; transform: scale(1);} 50%{ opacity: 0.35; transform: scale(0.8);} }
-
-  .modal-backdrop { transition: opacity 0.4s var(--ease); }
-  .modal-sheet { transition: transform 0.5s var(--bounce), opacity 0.4s var(--ease); }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    .orb, .grain { animation: none !important; }
-  }
-
-  /* Layout safety */
-  .app-shell {
-    position: relative; z-index: 5;
-    max-width: 600px; margin: 0 auto;
-    padding-top: calc(env(safe-area-inset-top) + 16px);
-    padding-bottom: calc(env(safe-area-inset-bottom) + 40px);
-    padding-left: 18px; padding-right: 18px;
-    min-height: 100dvh;
-  }
-
-  .tabular { font-variant-numeric: tabular-nums; }
-  .pill-accent {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
-    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85);
-    border: 1px solid rgba(255,255,255,0.12);
-  }
-
-  .toast {
-    position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 28px);
-    transform: translateX(-50%); z-index: 60;
-    padding: 14px 20px; border-radius: 999px; max-width: calc(100vw - 40px);
-    font-size: 15px; font-weight: 500; color: #fff; text-align: center;
-    display: none;
-  }
-
-  .modal {
-    position: fixed; inset: 0; z-index: 50;
-    display: none; align-items: flex-end; justify-content: center;
-  }
-  .modal.is-open { display: flex; }
-  .modal-backdrop { position: absolute; inset: 0; background: rgba(3,5,12,0.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; }
-  .modal.is-open .modal-backdrop { opacity: 1; }
-  .modal-sheet { position: relative; width: 100%; max-width: 600px; transform: translateY(40px); opacity: 0; margin-bottom: 0; }
-  .modal.is-open .modal-sheet { transform: translateY(0); opacity: 1; }
-
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);
+    padding:12px 20px;border-radius:999px;background:rgba(20,16,4,.9);color:#fde047;font-size:15px;font-weight:600;
+    opacity:0;transition:opacity .3s;pointer-events:none;border:1px solid rgba(250,204,21,.3);z-index:9}
+  .toast.show{opacity:1}
 </style>
 </head>
-
 <body>
-  <div class="orbs" aria-hidden="true">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="orb orb-4"></div>
-  </div>
-  <div class="grain" aria-hidden="true"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
 
-  <div class="app-shell">
+<div class="app">
+  <header class="row">
+    <div>
+      <div class="kicker">PFC · Тренер</div>
+      <div class="ttl" id="ttl">Тренировка</div>
+    </div>
+    <button class="btn btn-small" id="snd">Звук: вкл</button>
+  </header>
 
-    <!-- ================= HEADER ================= -->
-    <header class="glass glass-pill px-5 py-3 flex items-center justify-between gap-3" id="header">
-      <div class="glass-inner flex items-center gap-3 min-w-0">
-        <div class="w-9 h-9 rounded-full grid place-items-center shrink-0" style="background: linear-gradient(135deg,#3b82f6,#7c3aed,#ec4899); box-shadow: 0 0 22px -4px rgba(124,58,237,.8);">
-          <i class="fa-solid fa-brain text-white text-[15px]"></i>
+  <!-- ГЛАВНАЯ -->
+  <section class="screen" id="home">
+    <div class="glass">
+      <h1>Тренировка <span style="color:#facc15">внимания</span> и контроля</h1>
+      <p style="margin-top:12px">4 упражнения по 30 секунд. Каждое тренирует отдельную функцию префронтальной коры.</p>
+    </div>
+    <div id="mods" style="display:flex;flex-direction:column;gap:12px"></div>
+    <button class="btn btn-y btn-block btn-big" id="go">Начать тренировку</button>
+    <div class="sub" id="last"></div>
+  </section>
+
+  <!-- ИГРА -->
+  <section class="screen" id="game">
+    <div class="glass">
+      <div class="row">
+        <div>
+          <div class="meta" id="gStep">Шаг 1 из 4</div>
+          <h2 id="gName" style="margin-top:4px">—</h2>
         </div>
-        <div class="min-w-0">
-          <div class="label" style="color:#a78bfa;" id="header-kicker">PFC Trainer</div>
-          <div class="text-[15px] font-semibold text-white truncate" id="header-title">Daily Routine</div>
-        </div>
+        <div class="big-num" id="gTime">30</div>
       </div>
-      <div class="glass-inner flex items-center gap-2">
-        <div class="pill-accent num" id="header-stats" title="Sessions · Readiness">
-          <i class="fa-solid fa-bolt text-[11px]" style="color:#fbbf24"></i>
-          <span id="hdr-sessions">0</span> <span class="opacity-60">sess</span>
-          <span class="opacity-30">·</span>
-          <span id="hdr-ready">--</span>
-        </div>
-        <button class="btn btn-ghost btn-icon btn-sm" id="btn-settings" aria-label="Quick settings">
-          <i class="fa-solid fa-sliders"></i>
-        </button>
-      </div>
-    </header>
+      <div class="timer-bar" style="margin-top:16px"><div class="timer-fill" id="gBar"></div></div>
+      <p class="sub" id="gDesc" style="margin-top:12px;min-height:0;font-size:15px"></p>
+    </div>
+    <div class="glass stage" id="stage"></div>
+    <button class="btn btn-y btn-block btn-big" id="startBtn">Старт</button>
+    <button class="btn btn-block" id="quit">Выйти</button>
+  </section>
 
-    <!-- ================= NAV ================= -->
-    <nav class="mt-4 glass glass-pill p-1.5 grid grid-cols-3 gap-1" id="nav">
-      <div class="glass-inner contents">
-        <button class="nav-btn btn btn-ghost py-2.5 text-[14px] rounded-full" data-view="dashboard"><i class="fa-solid fa-table-cells-large"></i><span>Routine</span></button>
-        <button class="nav-btn btn btn-ghost py-2.5 text-[14px] rounded-full" data-view="train"><i class="fa-solid fa-play"></i><span>Train</span></button>
-        <button class="nav-btn btn btn-ghost py-2.5 text-[14px] rounded-full" data-view="analytics"><i class="fa-solid fa-chart-line"></i><span>Mind State</span></button>
-      </div>
-    </nav>
-
-    <main class="mt-6 relative">
-
-      <!-- ================= VIEW: DASHBOARD ================= -->
-      <section id="view-dashboard" class="view">
-        <div class="stagger space-y-5">
-
-          <div class="px-1 pt-2">
-            <div class="label" style="color:#7dd3fc">Session protocol</div>
-            <h1 class="display mt-2">Strengthen your <span class="grad-text">prefrontal</span> control.</h1>
-            <p class="body mt-3 opacity-80">Four sequential modules train attention, inhibition, working memory and cognitive flexibility. About 25 minutes in total.</p>
-          </div>
-
-          <div class="glass p-5" id="readiness-card">
-            <div class="glass-inner flex items-center gap-5">
-              <svg width="92" height="92" viewBox="0 0 92 92" class="shrink-0" aria-hidden="true">
-                <defs>
-                  <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#3b82f6"/><stop offset="50%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#ec4899"/>
-                  </linearGradient>
-                </defs>
-                <circle cx="46" cy="46" r="38" class="ring-track" stroke-width="8" fill="none"/>
-                <circle id="dash-ring" cx="46" cy="46" r="38" stroke="url(#ringGrad)" stroke-width="8" fill="none" stroke-linecap="round"
-                  stroke-dasharray="238.76" stroke-dashoffset="238.76" transform="rotate(-90 46 46)" class="ring-progress"/>
-                <text x="46" y="52" text-anchor="middle" font-size="20" font-weight="650" fill="#fff" id="dash-ring-text">--</text>
-              </svg>
-              <div class="min-w-0">
-                <div class="label" style="color:#6ee7b7">PFC Readiness</div>
-                <div class="headline mt-1" id="dash-ready-label">Not yet measured</div>
-                <p class="text-[14px] mt-1.5 opacity-70" id="dash-ready-sub">Complete the full routine to establish your baseline.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-3" id="module-list"></div>
-
-          <div class="flex gap-3">
-            <button class="btn btn-primary flex-1" id="btn-start-routine"><i class="fa-solid fa-wand-magic-sparkles"></i> Begin Routine</button>
-          </div>
-          <div class="flex gap-3">
-            <button class="btn btn-ghost flex-1 btn-sm" id="btn-skip-to-module"><i class="fa-solid fa-forward"></i> Jump to module</button>
-            <button class="btn btn-ghost flex-1 btn-sm" id="btn-reset"><i class="fa-solid fa-rotate-left"></i> Reset data</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= VIEW: TRAIN ================= -->
-      <section id="view-train" class="view">
-        <div class="stagger space-y-5">
-
-          <div class="glass p-4 flex items-center justify-between gap-3">
-            <div class="glass-inner flex items-center gap-3 min-w-0">
-              <div class="label" style="color:#a78bfa" id="train-step-label">Step 1 of 4</div>
-              <div class="text-white font-semibold text-[15px] truncate" id="train-step-name">Mindfulness Anchor</div>
-            </div>
-            <div class="glass-inner pill-accent num" id="train-timer-pill"><i class="fa-regular fa-clock"></i> <span id="train-total">00:00</span></div>
-          </div>
-
-          <!-- MODULE 1 -->
-          <div id="mod-1" class="module hidden space-y-5">
-            <div class="glass p-6 text-center">
-              <div class="glass-inner">
-                <div class="label" style="color:#7dd3fc">Module 01 · Attention Anchor</div>
-                <h2 class="headline mt-2">Breathe and return.</h2>
-                <p class="body mt-2 text-[15px]">Follow the orb. When your mind wanders, notice it kindly and return to the breath.</p>
-
-                <div class="mt-7 orb-wrap" aria-live="off">
-                  <div class="breath-halo" id="breath-halo"></div>
-                  <div class="breath-ring"></div>
-                  <div class="breath-core" id="breath-core"></div>
-                  <div class="absolute inset-0 grid place-items-center pointer-events-none">
-                    <div class="text-center">
-                      <div class="text-white text-[22px] font-semibold tracking-tight" id="breath-text">Ready</div>
-                      <div class="num text-[13px] opacity-60 mt-1" id="breath-count">4s</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mt-7 grid grid-cols-2 gap-3">
-                  <div class="glass-tight p-3 text-left glass">
-                    <div class="glass-inner">
-                      <div class="label" style="color:#fda4af">Drifts</div>
-                      <div class="num text-white text-[26px] font-semibold mt-1" id="m1-drift-count">0</div>
-                    </div>
-                  </div>
-                  <div class="glass-tight p-3 text-left glass">
-                    <div class="glass-inner">
-                      <div class="label" style="color:#6ee7b7">Focus Streak</div>
-                      <div class="num text-white text-[26px] font-semibold mt-1" id="m1-streak">00:00</div>
-                    </div>
-                  </div>
-                </div>
-
-                <button class="btn btn-wander w-full mt-4" id="btn-distracted">
-                  <i class="fa-solid fa-cloud"></i> I Got Distracted / Mind Wandered
-                </button>
-                <div class="mt-3 min-h-[24px] text-[14px] text-white/80 transition-opacity duration-500 opacity-0" id="m1-prompt"></div>
-
-                <div class="mt-5 flex items-center justify-between">
-                  <div class="num text-[44px] font-semibold text-white leading-none tracking-tight" id="m1-countdown">10:00</div>
-                  <div class="flex gap-2">
-                    <button class="btn btn-ghost btn-icon" id="m1-toggle" aria-label="Play or pause"><i class="fa-solid fa-play"></i></button>
-                    <button class="btn btn-ghost btn-icon" id="m1-skip" aria-label="Skip module"><i class="fa-solid fa-forward-step"></i></button>
-                  </div>
-                </div>
-                <div class="bar-track mt-5"><div class="bar-fill" id="m1-bar"></div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- MODULE 2: STROOP -->
-          <div id="mod-2" class="module hidden space-y-5">
-            <div class="glass p-6">
-              <div class="glass-inner">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <div class="label" style="color:#fbbf24">Module 02 · Inhibition</div>
-                    <h2 class="headline mt-1">Tap the ink.</h2>
-                  </div>
-                  <div class="text-right">
-                    <div class="label opacity-60">Time</div>
-                    <div class="num text-white text-[24px] font-semibold" id="s-time">60</div>
-                  </div>
-                </div>
-
-                <p class="body text-[14px] mt-2 opacity-70">Ignore the word. Tap the color the text is printed in.</p>
-
-                <div class="mt-6 glass-tight p-6 text-center min-h-[150px] grid place-items-center" id="stroop-stage">
-                  <div class="glass-inner">
-                    <div id="stroop-word" class="text-[52px] font-extrabold tracking-tight select-none">READY</div>
-                  </div>
-                </div>
-
-                <div class="mt-5 grid grid-cols-4 gap-2" id="stroop-buttons"></div>
-
-                <div class="mt-5 grid grid-cols-3 gap-3">
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Score</div><div class="num text-white text-[22px] font-semibold" id="s-score">0</div></div></div>
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Streak ×</div><div class="num text-white text-[22px] font-semibold" id="s-mult">1×</div></div></div>
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Avg RT</div><div class="num text-white text-[22px] font-semibold" id="s-rt">--</div></div></div>
-                </div>
-
-                <div class="mt-5 flex gap-3">
-                  <button class="btn btn-primary flex-1" id="s-start"><i class="fa-solid fa-bolt"></i> Start 60s</button>
-                  <button class="btn btn-ghost btn-icon" id="s-skip" aria-label="Skip module"><i class="fa-solid fa-forward-step"></i></button>
-                </div>
-                <div class="bar-track mt-4"><div class="bar-fill" id="s-bar"></div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- MODULE 3: N-BACK -->
-          <div id="mod-3" class="module hidden space-y-5">
-            <div class="glass p-6">
-              <div class="glass-inner">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <div class="label" style="color:#6ee7b7">Module 03 · Working Memory</div>
-                    <h2 class="headline mt-1">Dual N-Back</h2>
-                  </div>
-                  <div class="flex gap-2" id="nb-n-toggle">
-                    <button class="btn btn-ghost btn-sm nb-n" data-n="1">N=1</button>
-                    <button class="btn btn-ghost btn-sm nb-n" data-n="2">N=2</button>
-                  </div>
-                </div>
-                <p class="body text-[14px] mt-2 opacity-70">Tap <b class="text-white">Match</b> when the lit cell’s position equals the one from N steps back.</p>
-
-                <div class="mt-6 grid grid-cols-3 gap-2.5 max-w-[320px] mx-auto" id="nb-grid"></div>
-
-                <div class="mt-6 grid grid-cols-3 gap-3">
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Trial</div><div class="num text-white text-[20px] font-semibold" id="nb-trial">0/20</div></div></div>
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Hits</div><div class="num text-white text-[20px] font-semibold" id="nb-hits">0</div></div></div>
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Accuracy</div><div class="num text-white text-[20px] font-semibold" id="nb-acc">--</div></div></div>
-                </div>
-
-                <div class="mt-5 flex gap-3">
-                  <button class="btn btn-primary flex-1" id="nb-start"><i class="fa-solid fa-bolt"></i> Start</button>
-                  <button class="btn btn-success flex-1" id="nb-match" disabled><i class="fa-solid fa-check"></i> Match</button>
-                  <button class="btn btn-ghost btn-icon" id="nb-skip" aria-label="Skip module"><i class="fa-solid fa-forward-step"></i></button>
-                </div>
-                <div class="bar-track mt-4"><div class="bar-fill" id="nb-bar"></div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- MODULE 4: TASK SWITCH -->
-          <div id="mod-4" class="module hidden space-y-5">
-            <div class="glass p-6">
-              <div class="glass-inner">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <div class="label" style="color:#f9a8d4">Module 04 · Cognitive Flexibility</div>
-                    <h2 class="headline mt-1">Shift the rule.</h2>
-                  </div>
-                  <div class="text-right">
-                    <div class="label opacity-60">Trial</div>
-                    <div class="num text-white text-[20px] font-semibold" id="ts-trial">0/24</div>
-                  </div>
-                </div>
-
-                <div class="mt-6 glass-tight p-5 text-center" id="ts-banner-wrap">
-                  <div class="glass-inner">
-                    <div class="label opacity-70">Current rule</div>
-                    <div class="text-[26px] font-bold tracking-tight mt-1" id="ts-banner">PRESS START</div>
-                  </div>
-                </div>
-
-                <div class="mt-5 glass-tight p-8 text-center min-h-[140px] grid place-items-center">
-                  <div class="glass-inner">
-                    <div class="text-[64px] font-extrabold tracking-tight num" id="ts-stim">--</div>
-                  </div>
-                </div>
-
-                <div class="mt-5 grid grid-cols-2 gap-3" id="ts-buttons"></div>
-
-                <div class="mt-5 grid grid-cols-3 gap-3">
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Avg RT</div><div class="num text-white text-[20px] font-semibold" id="ts-rt">--</div></div></div>
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Switch Cost</div><div class="num text-white text-[20px] font-semibold" id="ts-cost">--</div></div></div>
-                  <div class="glass-tight p-3 glass"><div class="glass-inner"><div class="label opacity-70">Accuracy</div><div class="num text-white text-[20px] font-semibold" id="ts-acc">--</div></div></div>
-                </div>
-
-                <div class="mt-5 flex gap-3">
-                  <button class="btn btn-primary flex-1" id="ts-start"><i class="fa-solid fa-bolt"></i> Start</button>
-                  <button class="btn btn-ghost btn-icon" id="ts-skip" aria-label="Skip module"><i class="fa-solid fa-forward-step"></i></button>
-                </div>
-                <div class="bar-track mt-4"><div class="bar-fill" id="ts-bar"></div></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex gap-3">
-            <button class="btn btn-ghost flex-1 btn-sm" id="train-prev"><i class="fa-solid fa-chevron-left"></i> Previous</button>
-            <button class="btn btn-ghost flex-1 btn-sm" id="train-next">Next <i class="fa-solid fa-chevron-right"></i></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= VIEW: ANALYTICS ================= -->
-      <section id="view-analytics" class="view">
-        <div class="stagger space-y-5">
-          <div class="px-1 pt-2">
-            <div class="label" style="color:#7dd3fc">Mind state</div>
-            <h1 class="display mt-2">Your session, <span class="grad-text">measured.</span></h1>
-          </div>
-
-          <div class="glass p-6" id="summary-card">
-            <div class="glass-inner">
-              <div class="flex items-center gap-5">
-                <svg width="128" height="128" viewBox="0 0 128 128" class="shrink-0" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="readyGrad" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stop-color="#34d399"/><stop offset="60%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#7c3aed"/>
-                    </linearGradient>
-                  </defs>
-                  <circle cx="64" cy="64" r="54" class="ring-track" stroke-width="10" fill="none"/>
-                  <circle id="sum-ring" cx="64" cy="64" r="54" stroke="url(#readyGrad)" stroke-width="10" fill="none" stroke-linecap="round"
-                    stroke-dasharray="339.29" stroke-dashoffset="339.29" transform="rotate(-90 64 64)" class="ring-progress"/>
-                  <text x="64" y="72" text-anchor="middle" font-size="34" font-weight="700" fill="#fff" id="sum-score">--</text>
-                </svg>
-                <div class="min-w-0">
-                  <div class="label" style="color:#6ee7b7">PFC Readiness Index</div>
-                  <div class="headline mt-1" id="sum-label">No session yet</div>
-                  <p class="text-[14px] mt-2 opacity-70" id="sum-note">Run the full routine to generate your index.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3" id="breakdown"></div>
-
-          <div class="glass p-5">
-            <div class="glass-inner">
-              <div class="label" style="color:#a78bfa">Recommendations</div>
-              <ul class="mt-3 space-y-2.5 text-[15px] opacity-90" id="recs"></ul>
-            </div>
-          </div>
-
-          <div class="flex gap-3">
-            <button class="btn btn-primary flex-1" id="btn-log"><i class="fa-solid fa-floppy-disk"></i> Log Session</button>
-            <button class="btn btn-ghost flex-1" id="btn-restart"><i class="fa-solid fa-rotate-right"></i> Restart Routine</button>
-          </div>
-
-          <div class="glass p-5">
-            <div class="glass-inner">
-              <div class="label" style="color:#7dd3fc">Session log</div>
-              <div class="mt-3 space-y-2" id="log-list"><div class="text-[14px] opacity-60">No sessions logged yet.</div></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- Quick settings sheet -->
-  <div class="modal" id="modal-settings" aria-hidden="true">
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-sheet glass p-6 mx-3 mb-3" style="border-radius:32px;">
-      <div class="glass-inner">
-        <div class="flex items-center justify-between">
-          <div class="headline">Quick settings</div>
-          <button class="btn btn-ghost btn-icon" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-
-        <div class="mt-6 space-y-5">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-white font-semibold">Ambient sound cues</div>
-              <div class="text-[13px] opacity-60">Soft synthesized tones</div>
-            </div>
-            <div class="switch" id="set-audio" data-on="true" role="switch" aria-checked="true" tabindex="0"></div>
-          </div>
-
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-white font-semibold">Haptics</div>
-              <div class="text-[13px] opacity-60">Vibration on supported devices</div>
-            </div>
-            <div class="switch" id="set-haptic" data-on="true" role="switch" aria-checked="true" tabindex="0"></div>
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <div class="text-white font-semibold">Module 1 duration</div>
-              <div class="num text-white" id="set-dur-label">10:00</div>
-            </div>
-            <input type="range" id="set-dur" min="1" max="10" step="1" value="10" />
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <div class="text-white font-semibold">Audio volume</div>
-              <div class="num text-white" id="set-vol-label">40%</div>
-            </div>
-            <input type="range" id="set-vol" min="0" max="100" step="5" value="40" />
-          </div>
-        </div>
+  <!-- РЕЗУЛЬТАТ -->
+  <section class="screen" id="result">
+    <div class="glass" style="display:flex;align-items:center;gap:20px">
+      <svg width="120" height="120" viewBox="0 0 120 120" class="ring-svg" style="flex-shrink:0">
+        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/>
+        <circle id="ringP" cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round"
+          stroke-dasharray="314.16" stroke-dashoffset="314.16" class="ring-prog"/>
+        <text id="ringT" x="60" y="70" text-anchor="middle" transform="rotate(90 60 60)" font-size="32" font-weight="750" fill="#fff">0</text>
+      </svg>
+      <div>
+        <div class="kicker">Индекс готовности</div>
+        <h2 id="resLbl" style="margin-top:6px">—</h2>
       </div>
     </div>
-  </div>
+    <div class="metrics" id="metrics"></div>
+    <button class="btn btn-y btn-block btn-big" id="again">Пройти снова</button>
+    <button class="btn btn-block" id="home2">На главную</button>
+  </section>
+</div>
 
-  <!-- Toast -->
-  <div class="toast glass" id="toast"><div class="glass-inner" id="toast-text"></div></div>
+<div class="toast" id="toast"></div>
 
 <script>
-/* =========================================================
-   PFC TRAINER — application logic
-   ========================================================= */
+const $ = s => document.querySelector(s);
+const rnd = n => Math.floor(Math.random() * n);
+const rndInt = (a, b) => a + rnd(b - a + 1);
 
-/* ---------- Utilities ---------- */
-const $ = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const fmt = (sec) => {
-  sec = Math.max(0, Math.round(sec));
-  const m = Math.floor(sec / 60), s = sec % 60;
-  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-};
-const mean = (arr) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null;
-const now = () => performance.now();
-
-/* ---------- Favicon with fallback ---------- */
-(function setupFavicon() {
-  const link = $("#favicon");
-  const primary = link.getAttribute("href");
-  const probe = new Image();
-  probe.onerror = () => { link.setAttribute("href", "icon.png"); };
-  probe.onload = () => {};
-  probe.src = primary;
-  setTimeout(() => {
-    if (!probe.complete || probe.naturalWidth === 0) link.setAttribute("href", "icon.png");
-  }, 1200);
+/* ---------- favicon с запасными путями ---------- */
+(function favicon(){
+  const fav = $('#fav');
+  const cands = [fav.getAttribute('href'), 'images/icon.png', 'icon.png'];
+  const tryIcon = i => {
+    if (i >= cands.length) return;
+    const p = new Image();
+    p.onload = () => fav.href = cands[i];
+    p.onerror = () => tryIcon(i + 1);
+    p.src = cands[i];
+  };
+  tryIcon(0);
 })();
 
-/* ---------- Application state ---------- */
-const state = {
-  view: "dashboard",
-  settings: { audio: true, haptics: true, module1Min: 10, volume: 0.4 },
-  routineStep: 0,                       // 0..3 current module index
-  completed: { m1: false, m2: false, m3: false, m4: false },
-  sessionStart: null,
-  results: {
-    m1: { drifts: 0, bestStreak: 0, lastStreak: 0, totalSec: 0 },
-    m2: { score: 0, correct: 0, attempts: 0, rts: [], maxMult: 1 },
-    m3: { n: 1, hits: 0, correct: 0, trials: 0, falseAlarms: 0, misses: 0, accuracy: null },
-    m4: { trials: 0, correct: 0, rts: [], switchRts: [], repeatRts: [], accuracy: null },
-  },
-  sessions: [],                         // logged sessions (in-memory)
-  readiness: null,
+/* ---------- звук ---------- */
+let sndOn = true, AC = null;
+function beep(f, d = 0.15) {
+  if (!sndOn) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.frequency.value = f;
+    g.gain.setValueAtTime(0.08, AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, AC.currentTime + d);
+    o.connect(g).connect(AC.destination);
+    o.start(); o.stop(AC.currentTime + d);
+  } catch (e) {}
+}
+$('#snd').onclick = () => {
+  sndOn = !sndOn;
+  $('#snd').textContent = 'Звук: ' + (sndOn ? 'вкл' : 'выкл');
+  beep(660);
 };
 
-/* ---------- Audio engine (Web Audio, synthesized) ---------- */
-const Audio = (() => {
-  let ctx = null;
-  const ensure = () => {
-    if (!ctx) {
-      const C = window.AudioContext || window.webkitAudioContext;
-      if (!C) return null;
-      ctx = new C();
-    }
-    if (ctx.state === "suspended") ctx.resume();
-    return ctx;
+/* ---------- таймер ---------- */
+function clock(sec, onTick, onEnd) {
+  const t0 = performance.now(); let raf;
+  const loop = t => {
+    const left = Math.max(0, sec - (t - t0) / 1000);
+    onTick(left);
+    if (left <= 0) { onEnd(); return; }
+    raf = requestAnimationFrame(loop);
   };
-  const tone = (freq, dur = 0.5, type = "sine", gain = 0.2, delay = 0) => {
-    if (!state.settings.audio) return;
-    const c = ensure(); if (!c) return;
-    const t0 = c.currentTime + delay;
-    const osc = c.createOscillator();
-    const g = c.createGain();
-    const vol = gain * state.settings.volume;
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, t0);
-    g.gain.setValueAtTime(0.0001, t0);
-    g.gain.exponentialRampToValueAtTime(Math.max(vol, 0.0002), t0 + 0.04);
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    osc.connect(g).connect(c.destination);
-    osc.start(t0);
-    osc.stop(t0 + dur + 0.05);
-  };
-  return {
-    unlock() { ensure(); },
-    chime() { tone(523.25, 0.5, "sine", 0.18); tone(659.25, 0.6, "sine", 0.14, 0.08); tone(783.99, 0.8, "sine", 0.12, 0.16); },
-    gentle() { tone(392.0, 0.9, "sine", 0.16); tone(523.25, 1.2, "sine", 0.08, 0.12); },
-    good() { tone(880, 0.12, "triangle", 0.12); },
-    bad() { tone(196, 0.22, "sawtooth", 0.06); },
-    tick() { tone(1200, 0.04, "square", 0.03); },
-    blip() { tone(660, 0.08, "sine", 0.1); },
-    done() { [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, 0.7, "sine", 0.14, i * 0.12)); },
-  };
-})();
-
-const Haptic = {
-  pulse(ms = 12) { if (state.settings.haptics && navigator.vibrate) navigator.vibrate(ms); },
-  pattern(p) { if (state.settings.haptics && navigator.vibrate) navigator.vibrate(p); },
-};
-
-/* ---------- Toasts ---------- */
-let toastTimer = null;
-function toast(msg, ms = 2200) {
-  const el = $("#toast");
-  $("#toast-text").textContent = msg;
-  el.classList.remove("toast-out");
-  el.style.display = "block";
-  el.classList.remove("toast-in"); void el.offsetWidth; el.classList.add("toast-in");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    el.classList.remove("toast-in"); el.classList.add("toast-out");
-    setTimeout(() => { el.style.display = "none"; el.classList.remove("toast-out"); }, 360);
-  }, ms);
+  raf = requestAnimationFrame(loop);
+  return () => cancelAnimationFrame(raf);
 }
 
-/* ---------- Pointer light-follow (rAF) ---------- */
-(function lightFollow() {
-  let target = null, raf = 0, px = 0, py = 0, cx = 0, cy = 0;
-  const loop = () => {
-    cx += (px - cx) * 0.18;
-    cy += (py - cy) * 0.18;
-    if (target) {
-      target.style.setProperty("--mx", cx + "px");
-      target.style.setProperty("--my", cy + "px");
-    }
-    if (Math.abs(px - cx) > 0.3 || Math.abs(py - cy) > 0.3) raf = requestAnimationFrame(loop);
-    else raf = 0;
-  };
-  const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
-  const handle = (e) => {
-    const card = e.target.closest && e.target.closest(".glass");
-    if (!card) { target?.classList.remove("is-tracking"); target = null; return; }
-    if (card !== target) { target?.classList.remove("is-tracking"); target = card; card.classList.add("is-tracking"); }
-    const r = card.getBoundingClientRect();
-    px = e.clientX - r.left; py = e.clientY - r.top;
-    kick();
-  };
-  window.addEventListener("pointermove", handle, { passive: true });
-  window.addEventListener("pointerleave", () => { target?.classList.remove("is-tracking"); target = null; });
-})();
-
-/* ---------- Pressing feedback on any button (brightness lift) ---------- */
-document.addEventListener("pointerdown", (e) => {
-  if (e.target.closest("button, .tile, .switch")) Haptic.pulse(6);
-}, { passive: true });
-
-/* ---------- Navigation ---------- */
-const VIEW_META = {
-  dashboard: { title: "Daily Routine", color: "#7dd3fc" },
-  train: { title: "Active Session", color: "#a78bfa" },
-  analytics: { title: "Mind State", color: "#6ee7b7" },
-};
-
-function setView(name) {
-  state.view = name;
-  $$(".view").forEach(v => v.classList.remove("is-active"));
-  const target = $("#view-" + name);
-  target.classList.add("is-active");
-  $("#view-" + name).querySelectorAll(".stagger").forEach(s => { s.style.animation = "none"; void s.offsetWidth; s.style.animation = ""; });
-  $$(".nav-btn").forEach(b => {
-    const on = b.dataset.view === name;
-    b.classList.toggle("btn-primary", on);
-    b.classList.toggle("btn-ghost", !on);
-    b.style.color = on ? "#fff" : "rgba(255,255,255,0.7)";
-  });
-  $("#header-title").textContent = VIEW_META[name].title;
-  $("#header-kicker").style.color = VIEW_META[name].color;
-  $("#header").classList.toggle("active", name === "train");
-  $("#header").style.setProperty("--accent", VIEW_META[name].color);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 1400);
 }
 
-$$(".nav-btn").forEach(b => b.addEventListener("click", () => {
-  Audio.unlock();
-  if (b.dataset.view === "train") showModule(state.routineStep);
-  setView(b.dataset.view);
-}));
+/* ---------- экраны ---------- */
+const TITLES = { home: 'Тренировка', game: 'Упражнение', result: 'Результат' };
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
+  $('#ttl').textContent = TITLES[id];
+  window.scrollTo(0, 0);
+}
 
-/* ---------- Dashboard: module list ---------- */
-const MODULES = [
-  { id: 1, name: "Mindfulness Anchor", sub: "Breath pacing + wandering reset · 10 min", icon: "fa-lungs", color: "#7dd3fc" },
-  { id: 2, name: "Stroop Inhibition", sub: "Response inhibition · 60 sec", icon: "fa-palette", color: "#fbbf24" },
-  { id: 3, name: "Dual N-Back", sub: "Working memory · 20 trials", icon: "fa-grip", color: "#6ee7b7" },
-  { id: 4, name: "Task Switching", sub: "Set shifting · 24 trials", icon: "fa-shuffle", color: "#f9a8d4" },
+/* ---------- модули ---------- */
+const MODS = [
+  { id: 'breath', name: 'Дыхание и внимание', time: 30,
+    desc: 'Дышите вместе с кругом. Если отвлеклись — нажмите «Я отвлёкся».' },
+  { id: 'stroop', name: 'Цвет против слова', time: 30,
+    desc: 'Нажмите цвет, которым напечатано слово. Само слово игнорируйте.' },
+  { id: 'nback', name: 'Память на позицию', time: 30,
+    desc: 'Нажмите «Совпало», если квадрат сейчас стоит на том же месте, что и на прошлом шаге.' },
+  { id: 'switch', name: 'Смена правила', time: 30,
+    desc: 'Читайте правило вверху. Для чисел — чётное или нечётное, для букв — гласная или согласная.' },
 ];
 
-function renderModuleList() {
-  const wrap = $("#module-list");
-  wrap.innerHTML = "";
-  MODULES.forEach((m, i) => {
-    const done = state.completed["m" + m.id];
-    const card = document.createElement("button");
-    card.className = "glass w-full text-left p-4 flex items-center gap-4 transition-transform active:scale-[0.97]";
-    card.style.cssText = done ? "--accent:#34d399;" : `--accent:${m.color};`;
-    card.innerHTML = `
-      <div class="glass-inner flex items-center gap-4 w-full">
-        <div class="w-12 h-12 rounded-2xl grid place-items-center shrink-0" style="background: rgba(255,255,255,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 26px -8px ${m.color};">
-          <i class="fa-solid ${m.icon}" style="color:${m.color}; font-size:18px"></i>
-        </div>
-        <div class="min-w-0 flex-1">
-          <div class="label" style="color:${m.color}">Module 0${m.id}</div>
-          <div class="text-white font-semibold text-[16px] mt-0.5">${m.name}</div>
-          <div class="text-[13px] opacity-60 truncate">${m.sub}</div>
-        </div>
-        <div class="shrink-0 w-9 h-9 rounded-full grid place-items-center ${done ? "" : ""}"
-             style="${done ? "background:linear-gradient(135deg,#34d399,#10b981);box-shadow:0 0 34px -4px rgba(52,211,153,0.6);" : "background:rgba(255,255,255,0.08);"}">
-          <i class="fa-solid ${done ? "fa-check" : "fa-chevron-right"} text-[13px] text-white"></i>
-        </div>
-      </div>`;
-    card.addEventListener("click", () => {
-      Audio.unlock();
-      showModule(i);
-      setView("train");
-    });
-    wrap.appendChild(card);
-  });
-}
-
-/* ---------- Module switching ---------- */
-function showModule(idx) {
-  state.routineStep = clamp(idx, 0, 3);
-  $$(".module").forEach(m => m.classList.add("hidden"));
-  const m = $("#mod-" + (state.routineStep + 1));
-  m.classList.remove("hidden");
-  m.classList.remove("pop"); void m.offsetWidth; m.classList.add("pop");
-  $("#train-step-label").textContent = `Step ${state.routineStep + 1} of 4`;
-  $("#train-step-name").textContent = MODULES[state.routineStep].name;
-  $("#train-prev").disabled = state.routineStep === 0;
-  $("#train-next").innerHTML = state.routineStep === 3
-    ? `Finish <i class="fa-solid fa-flag-checkered"></i>`
-    : `Next <i class="fa-solid fa-chevron-right"></i>`;
-}
-
-$("#train-prev").addEventListener("click", () => { Audio.unlock(); stopAllModules(); showModule(state.routineStep - 1); });
-$("#train-next").addEventListener("click", () => {
-  Audio.unlock();
-  stopAllModules();
-  if (state.routineStep === 3) { finishRoutine(); return; }
-  showModule(state.routineStep + 1);
-});
-
-function stopAllModules() {
-  M1.pause(true);
-  S.stop(false);
-  N.stop(false);
-  T.stop(false);
-}
-
-/* ---------- Header live stats ---------- */
-function refreshHeaderStats() {
-  $("#hdr-sessions").textContent = state.sessions.length;
-  $("#hdr-ready").textContent = state.readiness == null ? "--" : state.readiness;
-}
-
-/* =========================================================
-   MODULE 1 — Mindfulness Anchor (breathing + wander reset)
-   ========================================================= */
-const BREATH = [
-  { name: "Inhale", dur: 4, scale: 1.0, halo: 1.08 },
-  { name: "Hold",   dur: 4, scale: 1.0, halo: 1.08 },
-  { name: "Exhale", dur: 6, scale: 0.6, halo: 0.85 },
-  { name: "Hold",   dur: 2, scale: 0.6, halo: 0.85 },
-];
-const WANDER_PROMPTS = [
-  "Noticed. Returning to breath...",
-  "Good catch. Let the breath lead you back.",
-  "Noticing is the skill. Coming back now.",
-  "Mind wandered. Gently returning to the anchor.",
-  "Acknowledged. Breathe in, return.",
-];
-
-const M1 = (() => {
-  let running = false, raf = 0, last = 0;
-  let total = 600, remaining = 600;
-  let phaseIdx = 0, phaseElapsed = 0;
-  let streakStart = 0, streakElapsed = 0;
-  let promptTimer = null;
-
-  const core = $("#breath-core"), halo = $("#breath-halo");
-  const txt = $("#breath-text"), cnt = $("#breath-count");
-  const cd = $("#m1-countdown"), bar = $("#m1-bar");
-  const toggleBtn = $("#m1-toggle");
-  const streakEl = $("#m1-streak"), driftEl = $("#m1-drift-count");
-  const promptEl = $("#m1-prompt");
-
-  function reset() {
-    total = state.settings.module1Min * 60;
-    remaining = total;
-    phaseIdx = 0; phaseElapsed = 0;
-    streakElapsed = 0;
-    update();
-  }
-
-  function setPhase(i) {
-    phaseIdx = i;
-    phaseElapsed = 0;
-    const p = BREATH[i];
-    txt.textContent = p.name;
-    if (p.name === "Inhale") { core.style.transition = `transform ${p.dur}s cubic-bezier(0.4,0,0.2,1)`; halo.style.transition = `transform ${p.dur}s cubic-bezier(0.4,0,0.2,1)`; }
-    else if (p.name === "Exhale") { core.style.transition = `transform ${p.dur}s cubic-bezier(0.4,0,0.2,1)`; halo.style.transition = `transform ${p.dur}s cubic-bezier(0.4,0,0.2,1)`; }
-    core.style.transform = `scale(${p.scale})`;
-    halo.style.transform = `scale(${p.halo})`;
-    Audio.blip();
-  }
-
-  function tick(t) {
-    if (!running) return;
-    const dt = (t - last) / 1000; last = t;
-    remaining = Math.max(0, remaining - dt);
-    streakElapsed += dt;
-    phaseElapsed += dt;
-    const p = BREATH[phaseIdx];
-    if (phaseElapsed >= p.dur) {
-      setPhase((phaseIdx + 1) % BREATH.length);
-    }
-    const pc = BREATH[phaseIdx];
-    cnt.textContent = `${Math.max(0, Math.ceil(pc.dur - phaseElapsed))}s`;
-    update();
-    if (remaining <= 0) { complete(); return; }
-    raf = requestAnimationFrame(tick);
-  }
-
-  function update() {
-    cd.textContent = fmt(remaining);
-    const pct = total ? ((total - remaining) / total) * 100 : 0;
-    bar.style.width = pct.toFixed(2) + "%";
-    streakEl.textContent = fmt(streakElapsed);
-    state.results.m1.totalSec = total - remaining;
-  }
-
-  function start() {
-    if (running) return;
-    if (remaining <= 0) reset();
-    running = true;
-    last = performance.now();
-    if (phaseIdx === 0 && phaseElapsed === 0) setPhase(0);
-    toggleBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
-    raf = requestAnimationFrame(tick);
-  }
-
-  function pause(silent = false) {
-    running = false;
-    cancelAnimationFrame(raf);
-    toggleBtn.innerHTML = `<i class="fa-solid fa-play"></i>`;
-    if (!silent) Audio.gentle();
-  }
-
-  function complete() {
-    pause(true);
-    state.completed.m1 = true;
-    state.results.m1.lastStreak = streakElapsed;
-    state.results.m1.bestStreak = Math.max(state.results.m1.bestStreak, streakElapsed);
-    txt.textContent = "Complete";
-    cnt.textContent = "";
-    core.style.transform = "scale(0.8)";
-    halo.style.transform = "scale(1)";
-    Audio.chime(); Haptic.pattern([20, 60, 20]);
-    toast("Module 1 complete · Attention anchored");
-    renderModuleList();
-    recomputeReadiness();
-  }
-
-  function distracted() {
-    if (!running) { toast("Start the timer to track focus"); return; }
-    state.results.m1.drifts += 1;
-    state.results.m1.bestStreak = Math.max(state.results.m1.bestStreak, streakElapsed);
-    state.results.m1.lastStreak = streakElapsed;
-    streakElapsed = 0;
-    driftEl.textContent = state.results.m1.drifts;
-    driftEl.classList.remove("pop"); void driftEl.offsetWidth; driftEl.classList.add("pop");
-    streakEl.textContent = "00:00";
-
-    const prompt = WANDER_PROMPTS[(state.results.m1.drifts - 1) % WANDER_PROMPTS.length];
-    promptEl.textContent = prompt;
-    promptEl.style.opacity = "1";
-    clearTimeout(promptTimer);
-    promptTimer = setTimeout(() => { promptEl.style.opacity = "0"; }, 2600);
-
-    Audio.gentle(); Haptic.pulse(18);
-    const btn = $("#btn-distracted");
-    btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake");
-  }
-
-  function skip() {
-    pause(true);
-    remaining = 0;
-    complete();
-  }
-
-  toggleBtn.addEventListener("click", () => { Audio.unlock(); running ? pause() : start(); });
-  $("#m1-skip").addEventListener("click", () => { Audio.unlock(); skip(); });
-  $("#btn-distracted").addEventListener("click", () => { Audio.unlock(); distracted(); });
-
-  reset();
-  return { start, pause, reset, complete, distracted, skip, get running() { return running; }, get done() { return state.completed.m1; } };
-})();
-
-/* ---------- Module 1 fix: keep reset in sync with settings ---------- */
-$("#set-dur").addEventListener("input", (e) => {
-  state.settings.module1Min = +e.target.value;
-  $("#set-dur-label").textContent = `${String(state.settings.module1Min).padStart(2,"0")}:00`;
-  if (!M1.running) M1.reset();
-});
-
-/* =========================================================
-   MODULE 2 — Stroop Inhibition
-   ========================================================= */
-const COLORS = [
-  { name: "RED",    hex: "#f87171" },
-  { name: "BLUE",   hex: "#60a5fa" },
-  { name: "GREEN",  hex: "#34d399" },
-  { name: "YELLOW", hex: "#fbbf24" },
-];
-
-const S = (() => {
-  const DURATION = 60;
-  let running = false, timerRaf = 0, startT = 0, lastShown = 0;
-  let stim = null, stimStart = 0, streak = 0, score = 0, attempts = 0, correct = 0;
-  let rts = [];
-  let remaining = DURATION;
-  let timeoutId = null;
-
-  const wordEl = $("#stroop-word"), stage = $("#stroop-stage");
-  const btnWrap = $("#stroop-buttons");
-  const scoreEl = $("#s-score"), multEl = $("#s-mult"), rtEl = $("#s-rt");
-  const timeEl = $("#s-time"), bar = $("#s-bar"), startBtn = $("#s-start");
-
-  function buildButtons() {
-    btnWrap.innerHTML = "";
-    COLORS.forEach((c, i) => {
-      const b = document.createElement("button");
-      b.className = "tile tile-off";
-      b.dataset.idx = i;
-      b.style.color = c.hex;
-      b.innerHTML = `<span class="glass-inner" style="position:relative;z-index:3;color:${c.hex};text-shadow:0 0 18px ${c.hex}66">${c.name.slice(0,1)}${c.name.slice(1).toLowerCase()}</span>`;
-      b.style.fontSize = "13px";
-      b.style.aspectRatio = "auto";
-      b.style.padding = "16px 0";
-      b.addEventListener("click", () => { Audio.unlock(); answer(i, b); });
-      btnWrap.appendChild(b);
-    });
-  }
-
-  function nextStim() {
-    const word = COLORS[Math.floor(Math.random() * COLORS.length)];
-    let ink = COLORS[Math.floor(Math.random() * COLORS.length)];
-    // Ensure ink differs from word in ~70% of trials (true Stroop conflict)
-    if (Math.random() < 0.7) {
-      while (ink.name === word.name) ink = COLORS[Math.floor(Math.random() * COLORS.length)];
-    }
-    stim = { word, ink };
-    wordEl.textContent = word.name;
-    wordEl.style.color = ink.hex;
-    wordEl.style.textShadow = `0 0 32px ${ink.hex}88`;
-    stimStart = performance.now();
-    stage.classList.remove("flash-good", "flash-bad");
-  }
-
-  function answer(idx, btn) {
-    if (!running || !stim) return;
-    const chosen = COLORS[idx];
-    const rt = performance.now() - stimStart;
-    attempts++;
-    if (chosen.name === stim.ink.name) {
-      correct++;
-      streak++;
-      const mult = Math.min(5, 1 + Math.floor(streak / 3));
-      score += 10 * mult;
-      rts.push(rt);
-      Audio.good(); Haptic.pulse(10);
-      stage.classList.remove("flash-bad"); void stage.offsetWidth; stage.classList.add("flash-good");
-      btn.classList.add("lit"); btn.style.boxShadow = `0 0 46px -6px ${chosen.hex}`;
-      setTimeout(() => btn.classList.remove("lit"), 160);
-    } else {
-      streak = 0;
-      score = Math.max(0, score - 5);
-      Audio.bad(); Haptic.pattern([30, 40, 30]);
-      stage.classList.remove("flash-good"); void stage.offsetWidth; stage.classList.add("flash-bad");
-      stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
-    }
-    state.results.m2.attempts = attempts;
-    state.results.m2.correct = correct;
-    state.results.m2.score = score;
-    state.results.m2.rts = rts.slice();
-    state.results.m2.maxMult = Math.max(state.results.m2.maxMult, Math.min(5, 1 + Math.floor(streak / 3)));
-    refreshStroopUI();
-    nextStim();
-  }
-
-  function refreshStroopUI() {
-    scoreEl.textContent = score;
-    const mult = Math.min(5, 1 + Math.floor(streak / 3));
-    multEl.textContent = mult + "×";
-    const avg = mean(rts);
-    rtEl.textContent = avg == null ? "--" : Math.round(avg) + "ms";
-  }
-
-  function tick() {
-    if (!running) return;
-    const elapsed = (performance.now() - startT) / 1000;
-    remaining = Math.max(0, DURATION - elapsed);
-    timeEl.textContent = Math.ceil(remaining);
-    bar.style.width = ((DURATION - remaining) / DURATION * 100).toFixed(2) + "%";
-    if (remaining <= 0) { finish(); return; }
-    timerRaf = requestAnimationFrame(tick);
-  }
-
-  function start() {
-    if (running) return;
-    buildButtons();
-    running = true;
-    score = 0; attempts = 0; correct = 0; streak = 0; rts = [];
-    state.results.m2 = { score: 0, correct: 0, attempts: 0, rts: [], maxMult: 1 };
-    startT = performance.now();
-    startBtn.disabled = true;
-    startBtn.innerHTML = `<i class="fa-solid fa-circle-dot pulse-dot"></i> Live`;
-    nextStim();
-    refreshStroopUI();
-    timerRaf = requestAnimationFrame(tick);
-  }
-
-  function stop(finished = true) {
-    running = false;
-    cancelAnimationFrame(timerRaf);
-    startBtn.disabled = false;
-    startBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Restart 60s`;
-    if (!finished) { wordEl.textContent = "READY"; wordEl.style.color = "#fff"; wordEl.style.textShadow = "none"; }
-  }
-
-  function finish() {
-    stop(true);
-    state.completed.m2 = attempts > 0;
-    wordEl.textContent = "DONE";
-    wordEl.style.color = "#fff";
-    wordEl.style.textShadow = "0 0 30px rgba(255,255,255,0.4)";
-    bar.style.width = "100%";
-    timeEl.textContent = 0;
-    Audio.done(); Haptic.pattern([15, 40, 15, 40, 30]);
-    toast(`Stroop complete · ${Math.round(inhibitionAccuracy() * 100)}% accuracy`);
-    renderModuleList();
-    recomputeReadiness();
-  }
-
-  function inhibitionAccuracy() {
-    return attempts ? correct / attempts : 0;
-  }
-
-  startBtn.addEventListener("click", () => { Audio.unlock(); start(); });
-  $("#s-skip").addEventListener("click", () => {
-    Audio.unlock();
-    if (running) finish();
-    else { state.completed.m2 = true; toast("Skipped · Stroop marked complete"); renderModuleList(); recomputeReadiness(); }
-  });
-
-  buildButtons();
-  return { start, stop, finish, inhibitionAccuracy, get running() { return running; } };
-})();
-
-/* =========================================================
-   MODULE 3 — Dual N-Back (position only; audio optional cue)
-   ========================================================= */
-const N = (() => {
-  const TRIALS = 20;
-  const ISI = 2200;          // ms between stimuli
-  const LIT = 900;           // ms lit
-  let n = 1, running = false, trial = 0, seq = [], timer = null, litTimer = null;
-  let hits = 0, correct = 0, falseAlarms = 0, misses = 0, responded = false;
-  let currentPos = -1, matchTarget = false;
-
-  const grid = $("#nb-grid");
-  const matchBtn = $("#nb-match");
-  const trialEl = $("#nb-trial"), hitsEl = $("#nb-hits"), accEl = $("#nb-acc");
-  const bar = $("#nb-bar"), startBtn = $("#nb-start");
-  const nButtons = $$(".nb-n");
-
-  function buildGrid() {
-    grid.innerHTML = "";
-    for (let i = 0; i < 9; i++) {
-      const cell = document.createElement("div");
-      cell.className = "tile tile-off";
-      cell.dataset.pos = i;
-      cell.style.borderRadius = "22px";
-      cell.style.color = "#7c3aed";
-      cell.style.aspectRatio = "1 / 1";
-      grid.appendChild(cell);
-    }
-  }
-
-  function setN(v) {
-    n = v;
-    nButtons.forEach(b => {
-      const on = +b.dataset.n === v;
-      b.classList.toggle("btn-primary", on);
-      b.classList.toggle("btn-ghost", !on);
-    });
-    if (!running) { trialEl.textContent = `0/${TRIALS}`; }
-  }
-
-  function lightCell(pos) {
-    $$(".tile", grid).forEach((c, i) => {
-      if (i === pos) {
-        c.style.background = "radial-gradient(circle at 35% 30%, #c4b5fd, #7c3aed 55%, #3b82f6 100%)";
-        c.style.boxShadow = "0 0 56px -4px #7c3aed, inset 0 1px 0 rgba(255,255,255,0.5)";
-        c.style.transform = "scale(1.04)";
-        c.classList.add("lit");
-      } else {
-        c.style.background = "";
-        c.style.boxShadow = "";
-        c.style.transform = "";
-        c.classList.remove("lit");
-      }
-    });
-  }
-
-  function clearGrid() { lightCell(-1); }
-
-  function genSeq() {
-    const arr = [];
-    for (let i = 0; i < TRIALS; i++) {
-      if (i >= n && Math.random() < 0.3) arr.push(arr[i - n]);
-      else {
-        let p;
-        do { p = Math.floor(Math.random() * 9); } while (i >= 1 && p === arr[i - 1]);
-        arr.push(p);
-      }
-    }
-    return arr;
-  }
-
-  function nextTrial() {
-    if (trial >= TRIALS) { finish(); return; }
-    if (trial > 0 && !responded) misses += (isMatchAt(trial - 1) ? 1 : 0);
-    const pos = seq[trial];
-    currentPos = pos;
-    matchTarget = isMatchAt(trial);
-    responded = false;
-    lightCell(pos);
-    matchBtn.disabled = false;
-    Audio.tick();
-    trialEl.textContent = `${trial + 1}/${TRIALS}`;
-    litTimer = setTimeout(clearGrid, LIT);
-    timer = setTimeout(() => { trial++; nextTrial(); }, ISI);
-  }
-
-  function isMatchAt(i) {
-    if (i < n) return false;
-    return seq[i] === seq[i - n];
-  }
-
-  function respond() {
-    if (!running || responded || trial === 0) return;
-    const idx = trial - 1;
-    responded = true;
-    matchBtn.disabled = true;
-    if (isMatchAt(idx)) { hits++; correct++; Audio.good(); Haptic.pulse(10); flashGrid(true); }
-    else { falseAlarms++; Audio.bad(); Haptic.pattern([25, 40, 25]); flashGrid(false); }
-    hitsEl.textContent = hits;
-    refreshAccuracy();
-    state.results.m3 = { n, hits, correct, trials: trial, falseAlarms, misses, accuracy: accuracyValue() };
-  }
-
-  function flashGrid(good) {
-    const cells = $$(".tile", grid);
-    cells.forEach(c => { c.classList.remove("flash-good", "flash-bad"); void c.offsetWidth; });
-    const target = cells[currentPos];
-    if (target) { target.classList.add(good ? "flash-good" : "flash-bad"); }
-  }
-
-  function accuracyValue() {
-    const total = Math.max(1, trial);
-    return correct / total;
-  }
-
-  function refreshAccuracy() {
-    const total = Math.max(1, trial);
-    accEl.textContent = Math.round((correct / total) * 100) + "%";
-  }
-
-  function start() {
-    if (running) return;
-    buildGrid();
-    seq = genSeq();
-    running = true; trial = 0; hits = 0; correct = 0; falseAlarms = 0; misses = 0; responded = true;
-    matchBtn.disabled = true;
-    startBtn.disabled = true;
-    startBtn.innerHTML = `<i class="fa-solid fa-circle-dot pulse-dot"></i> Live`;
-    bar.style.width = "0%";
-    hitsEl.textContent = 0; accEl.textContent = "--";
-    nextTrial();
-    progressLoop();
-  }
-
-  function progressLoop() {
-    if (!running) return;
-    bar.style.width = ((trial / TRIALS) * 100).toFixed(2) + "%";
-    requestAnimationFrame(progressLoop);
-  }
-
-  function finish() {
-    running = false;
-    clearTimeout(timer); clearTimeout(litTimer);
-    clearGrid();
-    matchBtn.disabled = true;
-    startBtn.disabled = false;
-    startBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Restart`;
-    state.completed.m3 = true;
-    state.results.m3 = { n, hits, correct, trials: TRIALS, falseAlarms, misses, accuracy: correct / TRIALS };
-    bar.style.width = "100%";
-    trialEl.textContent = `${TRIALS}/${TRIALS}`;
-    accEl.textContent = Math.round((correct / TRIALS) * 100) + "%";
-    Audio.done();
-    toast(`N-Back complete · ${Math.round((correct / TRIALS) * 100)}% retained`);
-    renderModuleList();
-    recomputeReadiness();
-  }
-
-  function stop(finished = false) {
-    if (!running) return;
-    running = false;
-    clearTimeout(timer); clearTimeout(litTimer);
-    clearGrid();
-    matchBtn.disabled = true;
-    startBtn.disabled = false;
-    startBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Start`;
-  }
-
-  matchBtn.addEventListener("click", () => { Audio.unlock(); respond(); });
-  startBtn.addEventListener("click", () => { Audio.unlock(); start(); });
-  nButtons.forEach(b => b.addEventListener("click", () => { Audio.unlock(); if (!running) setN(+b.dataset.n); }));
-  $("#nb-skip").addEventListener("click", () => {
-    Audio.unlock();
-    if (running) finish();
-    else { state.completed.m3 = true; toast("Skipped · N-Back marked complete"); renderModuleList(); recomputeReadiness(); }
-  });
-
-  // Keyboard support
-  window.addEventListener("keydown", (e) => {
-    if (e.code === "Space" && state.view === "train" && $("#mod-3").classList.contains("hidden") === false) {
-      e.preventDefault(); respond();
-    }
-  });
-
-  buildGrid();
-  setN(1);
-  return { start, stop, finish, get running() { return running; }, get n() { return n; } };
-})();
-
-/* ---------- N-Back: N selector sync (ensures ISI cleanup) ---------- */
-$$(".nb-n").forEach(b => b.addEventListener("click", () => {
-  if (!N.running) N.stop(false);
-}));
-
-/* =========================================================
-   MODULE 4 — Task Switching
-   ========================================================= */
-const T = (() => {
-  const TOTAL = 24;
-  const RESP_MAX = 3000;
-  const ITEMS = [
-    { ch: "A", kind: "letter", vowel: true },
-    { ch: "E", kind: "letter", vowel: true },
-    { ch: "I", kind: "letter", vowel: true },
-    { ch: "O", kind: "letter", vowel: true },
-    { ch: "U", kind: "letter", vowel: true },
-    { ch: "B", kind: "letter", vowel: false },
-    { ch: "C", kind: "letter", vowel: false },
-    { ch: "D", kind: "letter", vowel: false },
-    { ch: "K", kind: "letter", vowel: false },
-    { ch: "M", kind: "letter", vowel: false },
-    { ch: "2", kind: "number", even: true },
-    { ch: "4", kind: "number", even: true },
-    { ch: "6", kind: "number", even: true },
-    { ch: "8", kind: "number", even: true },
-    { ch: "1", kind: "number", even: false },
-    { ch: "3", kind: "number", even: false },
-    { ch: "5", kind: "number", even: false },
-    { ch: "7", kind: "number", even: false },
-    { ch: "9", kind: "number", even: false },
-  ];
-  const OPTS = {
-    number: [{ label: "ODD", key: "odd" }, { label: "EVEN", key: "even" }],
-    letter: [{ label: "VOWEL", key: "vowel" }, { label: "CONSONANT", key: "consonant" }],
-  };
-
-  let running = false, trial = 0, rule = "number", switchIn = 0;
-  let stim = null, stimStart = 0, prevRule = null;
-  let correct = 0, attempts = 0, rts = [], switchRts = [], repeatRts = [];
-  let waitTimer = null;
-
-  const banner = $("#ts-banner"), bannerWrap = $("#ts-banner-wrap");
-  const stimEl = $("#ts-stim"), btnWrap = $("#ts-buttons");
-  const trialEl = $("#ts-trial"), rtEl = $("#ts-rt"), costEl = $("#ts-cost"), accEl = $("#ts-acc");
-  const bar = $("#ts-bar"), startBtn = $("#ts-start");
-
-  function pickRule() {
-    if (switchIn <= 0) {
-      prevRule = rule;
-      rule = rule === "number" ? "letter" : "number";
-      switchIn = 3 + Math.floor(Math.random() * 3); // 3-5 trials
-      return true;
-    }
-    return false;
-  }
-
-  function renderButtons() {
-    btnWrap.innerHTML = "";
-    OPTS[rule].forEach(o => {
-      const b = document.createElement("button");
-      b.className = "tile tile-off";
-      b.style.aspectRatio = "auto";
-      b.style.padding = "22px 0";
-      b.style.fontSize = "16px";
-      b.style.letterSpacing = "0.04em";
-      b.dataset.key = o.key;
-      b.innerHTML = `<span class="glass-inner">${o.label}</span>`;
-      b.addEventListener("click", () => { Audio.unlock(); answer(o.key, b); });
-      btnWrap.appendChild(b);
-    });
-  }
-
-  function updateBanner(switched) {
-    banner.textContent = rule === "number" ? "NUMBER · ODD / EVEN" : "LETTER · VOWEL / CONSONANT";
-    banner.style.color = rule === "number" ? "#7dd3fc" : "#f9a8d4";
-    bannerWrap.classList.remove("pop"); void bannerWrap.offsetWidth; bannerWrap.classList.add("pop");
-    if (switched) Audio.blip();
-  }
-
-  function nextStim() {
-    if (trial >= TOTAL) { finish(); return; }
-    const pickedSwitch = pickRule();
-    if (pickedSwitch) updateBanner(true);
-    if (trial === 0) updateBanner(false);
-    renderButtons();
-
-    const pool = ITEMS.filter(i => i.kind === rule);
-    stim = pool[Math.floor(Math.random() * pool.length)];
-    stim.isSwitch = pickedSwitch;
-    stimEl.textContent = stim.ch;
-    stimEl.style.color = rule === "number" ? "#7dd3fc" : "#f9a8d4";
-    stimStart = performance.now();
-    trialEl.textContent = `${trial + 1}/${TOTAL}`;
-    bar.style.width = ((trial / TOTAL) * 100).toFixed(2) + "%";
-    switchIn--;
-    stimEl.classList.remove("pop"); void stimEl.offsetWidth; stimEl.classList.add("pop");
-  }
-
-  function answer(key, btn) {
-    if (!running || !stim) return;
-    const rt = performance.now() - stimStart;
-    attempts++;
-    let right;
-    if (stim.kind === "number") right = (stim.even && key === "even") || (!stim.even && key === "odd");
-    else right = (stim.vowel && key === "vowel") || (!stim.vowel && key === "consonant");
-
-    if (right) {
-      correct++;
-      Audio.good(); Haptic.pulse(8);
-      btn.style.boxShadow = "0 0 40px -4px rgba(52,211,153,0.7)";
-      btn.style.borderColor = "rgba(52,211,153,0.6)";
-      rts.push(rt);
-      (stim.isSwitch ? switchRts : repeatRts).push(rt);
-    } else {
-      Audio.bad(); Haptic.pattern([30, 40, 30]);
-      btn.classList.add("shake");
-      btn.style.boxShadow = "0 0 40px -4px rgba(248,113,113,0.7)";
-    }
-    trial++;
-    refresh();
-    stimEl.classList.add(right ? "flash-good" : "flash-bad");
-    setTimeout(() => stimEl.classList.remove("flash-good", "flash-bad"), 400);
-    waitTimer = setTimeout(nextStim, 380);
-  }
-
-  function refresh() {
-    const avg = mean(rts);
-    rtEl.textContent = avg == null ? "--" : Math.round(avg) + "ms";
-    const sw = mean(switchRts), rp = mean(repeatRts);
-    costEl.textContent = (sw == null || rp == null) ? "--" : "+" + Math.round(sw - rp) + "ms";
-    accEl.textContent = attempts ? Math.round((correct / attempts) * 100) + "%" : "--";
-    state.results.m4 = { trials: attempts, correct, rts: rts.slice(), switchRts: switchRts.slice(), repeatRts: repeatRts.slice(), accuracy: attempts ? correct / attempts : null };
-  }
-
-  function start() {
-    if (running) return;
-    running = true;
-    trial = 0; correct = 0; attempts = 0; rts = []; switchRts = []; repeatRts = [];
-    rule = Math.random() < 0.5 ? "number" : "letter";
-    switchIn = 3 + Math.floor(Math.random() * 3);
-    startBtn.disabled = true;
-    startBtn.innerHTML = `<i class="fa-solid fa-circle-dot pulse-dot"></i> Live`;
-    nextStim();
-  }
-
-  function stop(finished = false) {
-    if (!running) return;
-    running = false;
-    clearTimeout(waitTimer);
-    startBtn.disabled = false;
-    startBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Start`;
-    btnWrap.innerHTML = "";
-  }
-
-  function finish() {
-    running = false;
-    clearTimeout(waitTimer);
-    startBtn.disabled = false;
-    startBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Restart`;
-    btnWrap.innerHTML = "";
-    stimEl.textContent = "✓";
-    stimEl.style.color = "#34d399";
-    banner.textContent = "COMPLETE";
-    bar.style.width = "100%";
-    state.completed.m4 = true;
-    refresh();
-    Audio.done();
-    toast(`Task switching complete · ${Math.round((correct / TOTAL) * 100)}% accuracy`);
-    renderModuleList();
-    recomputeReadiness();
-  }
-
-  startBtn.addEventListener("click", () => { Audio.unlock(); start(); });
-  $("#ts-skip").addEventListener("click", () => {
-    Audio.unlock();
-    if (running) finish();
-    else { state.completed.m4 = true; toast("Skipped · Task switching marked complete"); renderModuleList(); recomputeReadiness(); }
-  });
-
-  return { start, stop, finish, get running() { return running; } };
-})();
-
-/* =========================================================
-   READINESS, ANALYTICS & ROUTINE COMPLETION
-   ========================================================= */
-function computeIndex() {
-  const r = state.results;
-
-  // Focus Stability: drifts vs. session length; fewer drifts per minute = higher
-  const minutes = Math.max(1, (r.m1.totalSec || (state.settings.module1Min * 60)) / 60);
-  const driftsPerMin = r.m1.drifts / minutes;
-  const focus = clamp(100 - driftsPerMin * 25, 0, 100);
-
-  // Inhibition: Stroop accuracy with small RT bonus
-  const stroopAcc = r.m2.attempts ? r.m2.correct / r.m2.attempts : 0;
-  const stroopRt = mean(r.m2.rts);
-  const rtBonus = stroopRt == null ? 0 : clamp((700 - stroopRt) / 700 * 10, 0, 10);
-  const inhibition = clamp(stroopAcc * 90 + rtBonus, 0, 100);
-
-  // Memory retention: N-back accuracy
-  const memory = r.m3.trials ? clamp((r.m3.correct / r.m3.trials) * 100, 0, 100) : 0;
-
-  // Cognitive shift speed: accuracy and switch cost
-  const tAcc = r.m4.trials ? r.m4.correct / r.m4.trials : 0;
-  const cost = (mean(r.m4.switchRts) ?? 0) - (mean(r.m4.repeatRts) ?? 0);
-  const costPenalty = clamp(cost / 15, 0, 40);
-  const shift = clamp(tAcc * 100 - costPenalty, 0, 100);
-
-  const index = Math.round(focus * 0.25 + inhibition * 0.25 + memory * 0.25 + shift * 0.25);
-  return {
-    index: clamp(index, 0, 100),
-    focus: Math.round(focus),
-    inhibition: Math.round(inhibition),
-    memory: Math.round(memory),
-    shift: Math.round(shift),
-    switchCost: Math.round(cost) || 0,
-  };
-}
-
-function recomputeReadiness() {
-  const done = Object.values(state.completed).filter(Boolean).length;
-  if (done === 0) { state.readiness = null; refreshHeaderStats(); return; }
-  const c = computeIndex();
-  state.readiness = c.index;
-  refreshHeaderStats();
-  const label = $("#dash-ready-label");
-  const sub = $("#dash-ready-sub");
-  const ringText = $("#dash-ring-text");
-  label.textContent = c.index >= 80 ? "Sharp & steady" : c.index >= 60 ? "Solid baseline" : c.index >= 40 ? "Building capacity" : "Early stage";
-  sub.textContent = `${done}/4 modules complete. Index updates as you train.`;
-  ringText.textContent = c.index;
-  const ring = $("#dash-ring");
-  ring.style.strokeDashoffset = String(238.76 * (1 - c.index / 100));
-}
-
-function renderSummary() {
-  const c = computeIndex();
-  const ring = $("#sum-ring");
-  $("#sum-score").textContent = c.index;
-  requestAnimationFrame(() => {
-    ring.style.strokeDashoffset = String(339.29 * (1 - c.index / 100));
-  });
-  $("#sum-label").textContent = c.index >= 80 ? "Sharp & steady" : c.index >= 60 ? "Solid baseline" : c.index >= 40 ? "Building capacity" : "Early stage";
-  $("#sum-note").textContent = "Scores are relative to your own sessions. Repeat the routine to track change.";
-
-  const cards = [
-    { label: "Focus Stability", value: c.focus, color: "#7dd3fc", sub: `${state.results.m1.drifts} drift${state.results.m1.drifts === 1 ? "" : "s"} logged` },
-    { label: "Inhibition Accuracy", value: c.inhibition, color: "#fbbf24", sub: `${state.results.m2.correct}/${state.results.m2.attempts} correct` },
-    { label: "Memory Retention", value: c.memory, color: "#6ee7b7", sub: `N=${state.results.m3.n} · ${state.results.m3.hits} hits` },
-    { label: "Cognitive Shift Speed", value: c.shift, color: "#f9a8d4", sub: `Switch cost ${c.switchCost >= 0 ? "+" : ""}${c.switchCost}ms` },
-  ];
-  const wrap = $("#breakdown");
-  wrap.innerHTML = "";
-  cards.forEach((card, i) => {
-    const el = document.createElement("div");
-    el.className = "glass p-4";
+const M = {};
+
+/* 1. Дыхание */
+const B = { on: false, drifts: 0, timers: [] };
+M.breath = {
+  render(el) {
     el.innerHTML = `
-      <div class="glass-inner">
-        <div class="label" style="color:${card.color}">${card.label}</div>
-        <div class="num text-white text-[30px] font-semibold mt-1">${card.value}</div>
-        <div class="bar-track mt-3"><div class="bar-fill" data-w="${card.value}"></div></div>
-        <div class="text-[12px] opacity-60 mt-2">${card.sub}</div>
-      </div>`;
-    wrap.appendChild(el);
-  });
-  requestAnimationFrame(() => {
-    $$(".bar-fill", wrap).forEach(b => b.style.width = b.dataset.w + "%");
-  });
-
-  const recs = [];
-  if (c.focus < 70) recs.push("Lengthen breathing blocks and reset faster when attention drifts.");
-  if (c.inhibition < 70) recs.push("Slow the Stroop pace slightly and prioritize accuracy over speed.");
-  if (c.memory < 70) recs.push("Try N=1 for two sessions before advancing to N=2.");
-  if (c.shift < 70) recs.push("Practice rule cues out loud to reduce switch cost.");
-  if (recs.length === 0) recs.push("Strong across all domains. Increase difficulty by moving to N=2 in N-Back.");
-  $("#recs").innerHTML = recs.map(r => `<li class="flex gap-3"><span class="mt-2 w-1.5 h-1.5 rounded-full shrink-0" style="background:linear-gradient(90deg,#3b82f6,#ec4899)"></span><span>${r}</span></li>`).join("");
-}
-
-function renderLog() {
-  const list = $("#log-list");
-  if (!state.sessions.length) { list.innerHTML = `<div class="text-[14px] opacity-60">No sessions logged yet.</div>`; return; }
-  list.innerHTML = state.sessions.slice().reverse().map((s, i) => `
-    <div class="flex items-center justify-between rounded-2xl px-4 py-3" style="background:rgba(255,255,255,0.05); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);">
-      <div>
-        <div class="text-white text-[15px] font-semibold num">Index ${s.index}</div>
-        <div class="text-[12px] opacity-60">${s.date}</div>
+      <div class="orb-box">
+        <div class="ring"></div>
+        <div class="orb" id="orb"></div>
+        <div class="orb-txt" id="ot" style="color:#fde047;mix-blend-mode:normal"></div>
       </div>
-      <div class="text-[12px] num opacity-70">F ${s.focus} · I ${s.inhibition} · M ${s.memory} · S ${s.shift}</div>
-    </div>`).join("");
+      <button class="btn btn-y btn-block" id="wander">Я отвлёкся</button>
+      <div class="sub" id="note">Отвлечения: 0</div>`;
+    $('#ot').textContent = 'Готовы?';
+    $('#wander').onclick = () => {
+      if (!B.on) return;
+      B.drifts++;
+      $('#note').textContent = 'Заметили. Возвращаемся к дыханию. Отвлечения: ' + B.drifts;
+      beep(440, 0.15);
+    };
+  },
+  start() {
+    B.on = true; B.drifts = 0;
+    const P = [['Вдох', 4, 1], ['Пауза', 4, 1], ['Выдох', 6, 0.55], ['Пауза', 2, 0.55]];
+    let i = 0;
+    const run = () => {
+      const [t, d, s] = P[i++ % 4];
+      const o = $('#orb');
+      o.style.transition = `transform ${d}s cubic-bezier(.4,0,.2,1)`;
+      o.style.transform = `scale(${s})`;
+      $('#ot').textContent = t;
+      B.timers.push(setTimeout(run, d * 1000));
+    };
+    run();
+  },
+  stop() {
+    B.on = false; B.timers.forEach(clearTimeout); B.timers = [];
+    return Math.max(0, 100 - B.drifts * 20);
+  },
+};
+
+/* 2. Струп */
+const SC = [
+  { n: 'КРАСНЫЙ', c: '#ef4444' }, { n: 'СИНИЙ', c: '#3b82f6' },
+  { n: 'ЗЕЛЁНЫЙ', c: '#22c55e' }, { n: 'ЖЁЛТЫЙ', c: '#facc15' },
+];
+const S = { on: false, w: 0, ink: 0, ok: 0, tot: 0 };
+function sNext() {
+  const w = rnd(4);
+  let k = rnd(4);
+  if (Math.random() < 0.75) while (k === w) k = rnd(4);
+  S.w = w; S.ink = k;
+  const e = $('#sw');
+  e.textContent = SC[w].n;
+  e.style.color = SC[k].c;
+  e.style.textShadow = `0 0 30px ${SC[k].c}88`;
+  $('#sc').textContent = `Верно ${S.ok} из ${S.tot}`;
+}
+function sAnswer(i) {
+  if (!S.on) return;
+  S.tot++;
+  const good = i === S.ink;
+  if (good) S.ok++;
+  beep(good ? 880 : 200, 0.12);
+  sNext();
+}
+M.stroop = {
+  render(el) {
+    el.innerHTML = `
+      <div class="word" id="sw">—</div>
+      <div class="sub" id="sc"></div>
+      <div class="grid2">${SC.map((c, i) => `<button class="sbtn" data-i="${i}" style="background:${c.c}">${c.n}</button>`).join('')}</div>`;
+    el.querySelectorAll('.sbtn').forEach(b => b.onclick = () => sAnswer(+b.dataset.i));
+  },
+  start() { S.on = true; S.ok = 0; S.tot = 0; sNext(); },
+  stop() { S.on = false; return S.tot ? Math.round(S.ok / S.tot * 100) : 0; },
+};
+
+/* 3. N-back (N=1) */
+const NB = { on: false, seq: [], resp: [], i: -1, last: -1, ok: 0, ev: 0, t: null };
+function nbEval(k) {
+  if (k < 1 || k === NB.last) return;
+  NB.last = k;
+  const match = NB.seq[k] === NB.seq[k - 1];
+  const said = !!NB.resp[k];
+  NB.ev++;
+  if (match === said) NB.ok++;
+}
+function nbStep() {
+  nbEval(NB.i);
+  NB.i++;
+  if (NB.i >= NB.seq.length) { M.nback.stop(); finishStep(); return; }
+  const cells = document.querySelectorAll('#nbg .cell');
+  cells.forEach(c => c.classList.remove('on'));
+  cells[NB.seq[NB.i]].classList.add('on');
+  $('#nbs').textContent = `Шаг ${NB.i + 1}`;
+  NB.t = setTimeout(nbStep, 2000);
+}
+M.nback = {
+  render(el) {
+    el.innerHTML = `
+      <div class="grid3" id="nbg">${Array.from({ length: 9 }, () => '<div class="cell"></div>').join('')}</div>
+      <div class="sub" id="nbs">Запоминайте позицию</div>
+      <button class="btn btn-y btn-block btn-big" id="nbm">Совпало</button>`;
+    $('#nbm').onclick = () => { if (NB.on && NB.i >= 0) NB.resp[NB.i] = true; };
+  },
+  start() {
+    NB.on = true; NB.seq = []; NB.resp = []; NB.i = -1; NB.last = -1; NB.ok = 0; NB.ev = 0;
+    for (let k = 0; k < 20; k++) {
+      if (k > 0 && Math.random() < 0.3) NB.seq.push(NB.seq[k - 1]);
+      else { let p; do p = rnd(9); while (k > 0 && p === NB.seq[k - 1]); NB.seq.push(p); }
+    }
+    nbStep();
+  },
+  stop() {
+    NB.on = false; clearTimeout(NB.t);
+    nbEval(NB.i);
+    return NB.ev ? Math.round(NB.ok / NB.ev * 100) : 0;
+  },
+};
+
+/* 4. Переключение правил */
+const TS = { on: false, rule: 'num', left: 0, exp: 0, t0: 0, ok: 0, tot: 0 };
+const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const VOW = ['А', 'Е', 'И', 'О', 'У', 'Ы', 'Э', 'Ю', 'Я'];
+const CON = ['Б', 'В', 'Г', 'Д', 'К', 'М', 'Н', 'П', 'Р', 'С', 'Т'];
+function tsNext() {
+  if (TS.left <= 0) { TS.rule = TS.rule === 'num' ? 'let' : 'num'; TS.left = rndInt(3, 5); }
+  TS.left--;
+  const isNum = TS.rule === 'num';
+  const pool = isNum ? NUMS : VOW.concat(CON);
+  const v = pool[rnd(pool.length)];
+  TS.exp = isNum ? (v % 2 === 0 ? 0 : 1) : (VOW.includes(v) ? 0 : 1);
+  $('#rule').textContent = isNum ? 'ПРАВИЛО: ЧИСЛО' : 'ПРАВИЛО: БУКВА';
+  $('#rule').style.color = isNum ? '#fde047' : '#fbbf24';
+  $('#tsw').textContent = v;
+  $('#tss').textContent = `Верно ${TS.ok} из ${TS.tot}`;
+  const opts = isNum ? ['ЧЁТНОЕ', 'НЕЧЁТНОЕ'] : ['ГЛАСНАЯ', 'СОГЛАСНАЯ'];
+  const box = $('#tsb');
+  box.innerHTML = opts.map((o, i) => `<button class="btn btn-big" data-i="${i}">${o}</button>`).join('');
+  box.querySelectorAll('button').forEach(b => b.onclick = () => tsAnswer(+b.dataset.i));
+  TS.t0 = performance.now();
+}
+function tsAnswer(i) {
+  if (!TS.on) return;
+  TS.tot++;
+  const good = i === TS.exp;
+  if (good) TS.ok++;
+  beep(good ? 880 : 200, 0.12);
+  tsNext();
+}
+M.switch = {
+  render(el) {
+    el.innerHTML = `
+      <div class="meta" id="rule" style="font-size:15px;font-weight:700;letter-spacing:.12em">—</div>
+      <div class="word" id="tsw" style="font-size:96px">—</div>
+      <div class="sub" id="tss"></div>
+      <div class="grid2" id="tsb"></div>`;
+  },
+  start() { TS.on = true; TS.ok = 0; TS.tot = 0; TS.rule = Math.random() < 0.5 ? 'num' : 'let'; TS.left = rndInt(3, 5); tsNext(); },
+  stop() { TS.on = false; return TS.tot ? Math.round(TS.ok / TS.tot * 100) : 0; },
+};
+
+/* ---------- ход тренировки ---------- */
+let step = 0, scores = [], stopClock = null, running = false, lastIdx = null;
+
+function openStep(i) {
+  step = i;
+  const m = MODS[i];
+  const el = $('#stage');
+  el.innerHTML = '';
+  M[m.id].render(el);
+  $('#gStep').textContent = `Шаг ${i + 1} из 4`;
+  $('#gName').textContent = m.name;
+  $('#gDesc').textContent = m.desc;
+  $('#gTime').textContent = m.time;
+  $('#gBar').style.width = '0%';
+  $('#startBtn').hidden = false;
+  show('game');
 }
 
-function finishRoutine() {
-  stopAllModules();
-  recomputeReadiness();
-  renderSummary();
-  setView("analytics");
-  const c = computeIndex();
-  if (c.index >= 60) Audio.chime(); else Audio.gentle();
-  Haptic.pattern([20, 40, 20]);
+function startStep() {
+  const m = MODS[step];
+  running = true;
+  $('#startBtn').hidden = true;
+  M[m.id].start();
+  stopClock = clock(m.time,
+    left => {
+      $('#gTime').textContent = Math.ceil(left);
+      $('#gBar').style.width = ((m.time - left) / m.time * 100) + '%';
+    },
+    () => finishStep());
 }
 
-$("#btn-log").addEventListener("click", () => {
-  Audio.unlock();
-  const c = computeIndex();
-  const entry = {
-    date: new Date().toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }),
-    index: c.index, focus: c.focus, inhibition: c.inhibition, memory: c.memory, shift: c.shift,
-  };
-  state.sessions.push(entry);
-  refreshHeaderStats();
-  renderLog();
-  Audio.chime();
-  toast("Session logged");
-});
-
-$("#btn-restart").addEventListener("click", () => {
-  Audio.unlock();
-  stopAllModules();
-  resetRoutine();
-  setView("dashboard");
-  toast("Routine restarted");
-});
-
-function resetRoutine() {
-  state.routineStep = 0;
-  state.completed = { m1: false, m2: false, m3: false, m4: false };
-  state.results = {
-    m1: { drifts: 0, bestStreak: 0, lastStreak: 0, totalSec: 0 },
-    m2: { score: 0, correct: 0, attempts: 0, rts: [], maxMult: 1 },
-    m3: { n: N.n, hits: 0, correct: 0, trials: 0, falseAlarms: 0, misses: 0, accuracy: null },
-    m4: { trials: 0, correct: 0, rts: [], switchRts: [], repeatRts: [], accuracy: null },
-  };
-  M1.reset();
-  $("#m1-drift-count").textContent = "0";
-  $("#m1-streak").textContent = "00:00";
-  $("#m1-prompt").style.opacity = "0";
-  $("#m1-countdown").textContent = fmt(state.settings.module1Min * 60);
-  $("#m1-bar").style.width = "0%";
-  $("#breath-text").textContent = "Ready";
-  $("#breath-count").textContent = "4s";
-  $("#breath-core").style.transform = "scale(0.6)";
-  $("#breath-halo").style.transform = "scale(0.85)";
-  $("#s-score").textContent = "0"; $("#s-mult").textContent = "1×"; $("#s-rt").textContent = "--";
-  $("#s-time").textContent = "60"; $("#s-bar").style.width = "0%";
-  $("#stroop-word").textContent = "READY"; $("#stroop-word").style.color = "#fff"; $("#stroop-word").style.textShadow = "none";
-  $("#nb-trial").textContent = "0/20"; $("#nb-hits").textContent = "0"; $("#nb-acc").textContent = "--"; $("#nb-bar").style.width = "0%";
-  $("#ts-trial").textContent = "0/24"; $("#ts-rt").textContent = "--"; $("#ts-cost").textContent = "--"; $("#ts-acc").textContent = "--"; $("#ts-bar").style.width = "0%";
-  $("#ts-banner").textContent = "PRESS START"; $("#ts-stim").textContent = "--"; $("#ts-stim").style.color = "#fff";
-  $("#ts-buttons").innerHTML = "";
-  $("#sum-ring").style.strokeDashoffset = "339.29";
-  $("#sum-score").textContent = "--";
-  $("#sum-label").textContent = "No session yet";
-  $("#sum-note").textContent = "Run the full routine to generate your index.";
-  $("#breakdown").innerHTML = "";
-  $("#recs").innerHTML = "";
-  renderModuleList();
-  recomputeReadiness();
-  if (state.readiness == null) {
-    $("#dash-ready-label").textContent = "Not yet measured";
-    $("#dash-ready-sub").textContent = "Complete the full routine to establish your baseline.";
-    $("#dash-ring-text").textContent = "--";
-    $("#dash-ring").style.strokeDashoffset = "238.76";
-  }
+function finishStep() {
+  if (!running) return;
+  running = false;
+  stopClock && stopClock();
+  scores[step] = M[MODS[step].id].stop();
+  beep(990, 0.25);
+  if (step < 3) openStep(step + 1);
+  else showResult();
 }
 
-$("#btn-start-routine").addEventListener("click", () => {
-  Audio.unlock();
-  resetRoutine();
-  state.sessionStart = Date.now();
-  showModule(0);
-  setView("train");
-});
-
-$("#btn-skip-to-module").addEventListener("click", () => {
-  Audio.unlock();
-  const next = (state.routineStep + 1) % 4;
-  showModule(next);
-  setView("train");
-  toast(`Jumped to ${MODULES[next].name}`);
-});
-
-$("#btn-reset").addEventListener("click", () => {
-  Audio.unlock();
-  stopAllModules();
-  state.sessions = [];
-  resetRoutine();
-  renderLog();
-  refreshHeaderStats();
-  setView("dashboard");
-  toast("All data cleared");
-});
-
-/* ---------- Quick settings ---------- */
-const settingsModal = $("#modal-settings");
-function openSettings() {
-  settingsModal.classList.add("is-open");
-  settingsModal.setAttribute("aria-hidden", "false");
-  Audio.unlock();
+function abort() {
+  if (!running) return;
+  running = false;
+  stopClock && stopClock();
+  M[MODS[step].id].stop();
 }
-function closeSettings() {
-  settingsModal.classList.remove("is-open");
-  settingsModal.setAttribute("aria-hidden", "true");
+
+function showResult() {
+  const [b, s, n, t] = scores;
+  const idx = Math.round((b + s + n + t) / 4);
+  lastIdx = idx;
+  $('#ringP').style.strokeDashoffset = String(314.16 * (1 - idx / 100));
+  $('#ringT').textContent = idx;
+  $('#resLbl').textContent = idx >= 80 ? 'Высокая готовность' : idx >= 60 ? 'Хорошая форма' : idx >= 40 ? 'Развивается' : 'Начальный уровень';
+  $('#metrics').innerHTML = [
+    ['Внимание', b], ['Торможение', s], ['Память', n], ['Переключение', t],
+  ].map(([l, v]) => `<div class="glass metric"><div class="lbl">${l}</div><div class="val">${v}%</div></div>`).join('');
+  show('result');
+  beep(1046, 0.4);
 }
-$("#btn-settings").addEventListener("click", openSettings);
-$$("[data-close]", settingsModal).forEach(el => el.addEventListener("click", closeSettings));
-window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSettings(); });
 
-function bindSwitch(id, key) {
-  const el = $("#" + id);
-  const toggle = () => {
-    state.settings[key] = !state.settings[key];
-    el.dataset.on = String(state.settings[key]);
-    el.setAttribute("aria-checked", String(state.settings[key]));
-    if (key === "audio" && state.settings.audio) Audio.blip();
-  };
-  el.addEventListener("click", toggle);
-  el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+/* ---------- главная ---------- */
+function renderHome() {
+  $('#mods').innerHTML = MODS.map((m, i) => `
+    <div class="glass">
+      <div class="card" data-i="${i}" role="button" tabindex="0">
+        <div class="num-badge">${i + 1}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:17px;font-weight:650;color:#fff">${m.name}</div>
+          <div class="meta" style="margin-top:4px">30 сек</div>
+        </div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('#mods .card').forEach(c => c.onclick = () => { openStep(+c.dataset.i); });
+  $('#last').textContent = lastIdx == null ? '' : `Последний индекс: ${lastIdx}`;
 }
-bindSwitch("set-audio", "audio");
-bindSwitch("set-haptic", "haptics");
 
-$("#set-vol").addEventListener("input", (e) => {
-  state.settings.volume = +e.target.value / 100;
-  $("#set-vol-label").textContent = e.target.value + "%";
-});
+$('#go').onclick = () => { scores = []; openStep(0); };
+$('#startBtn').onclick = () => { beep(660, 0.1); startStep(); };
+$('#quit').onclick = () => { abort(); renderHome(); show('home'); };
+$('#again').onclick = () => { scores = []; openStep(0); };
+$('#home2').onclick = () => { renderHome(); show('home'); };
 
-/* ---------- Header quick stats tap = open settings ---------- */
-$("#header-stats").addEventListener("click", openSettings);
-
-/* ---------- Boot ---------- */
-function boot() {
-  $("#set-dur-label").textContent = `${String(state.settings.module1Min).padStart(2,"0")}:00`;
-  $("#set-vol-label").textContent = Math.round(state.settings.volume * 100) + "%";
-  renderModuleList();
-  renderLog();
-  refreshHeaderStats();
-  showModule(0);
-  setView("dashboard");
-  // Module 1 duration tie-in
-  M1.reset();
-}
-boot();
+renderHome();
+show('home');
 </script>
 </body>
 </html>
